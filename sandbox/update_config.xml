@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<xml>
+    <files>
+        <file name="kexport.txt" script="krestore.php" update_time="2013-12-01 11:10:00"/>
+        <file name="export.txt" script="drestore.php" update_time="2013-12-01 11:21:11"/>
+        <file name="texport.txt" script="trestore.php" update_time="2013-12-01 11:19:00"/>
+    </files>
+</xml>

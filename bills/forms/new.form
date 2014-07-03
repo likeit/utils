@@ -1,0 +1,101 @@
+//<?php
+$page .= "<!-- begin add form -->";
+if ($stage == "mod") {
+      $filetype = substr($filename,15);
+        if ((strlen($filetype) <= 0) or
+            (!file_exists("img/".$filetype."_icon.png")))
+            $filetype = "unknown";
+
+        $file_link = "<a href='/bills/files/$filename' target='_blank'><img src='img/".$filetype."_icon.png' class='icon'></a>";
+
+    $page .= "<div class='form_block header'><h3>$file_link Счёт № $number от ".$sellers[$seller_id]."</h3></div>";
+}
+else $page .= "<div class='form_block header'><h3>Новый счёт</h3></div>";
+
+$date = $date > 0 ? date('d.m.Y', strtotime($date)) : "";
+$page .= "<form method='post' enctype='multipart/form-data' name='edit_bill'>
+<div class='edit_form'>
+	<table class='form_block'>
+		<tr>
+			<td id='cell-bill-number'>
+				<label for='bill-number'>Счёт №&nbsp;&nbsp;</label><input type='text' id='bill-number' name='number' value='$number'>
+				<label for='bill-date'>от</label>
+				<input type='text' id='bill-date' class='calendar' name='date' value='$date' placeholder='дд.мм.гггг'>
+			</td>
+
+			<td id='cell-bill-resp'>
+				<label>Ответственный:&nbsp;</label>$user_id
+			</td>
+		</tr>
+
+		<tr>
+			<td id='cell-bill-client'>
+				<label for='bill-client'>Покупатель&nbsp;</label>
+				<select id='bill-client' name='client_id'>
+					<option value='0'>-- не выбран --</option>";
+foreach($clients as $k=>$v)
+{
+    if ($client_id == $k) $sel = "selected "; else $sel = "";
+    $page .= "<option $sel value='$k'>$v</option>";
+};
+$page .= "</select>
+			</td>
+
+			<td id='cell-bill-seller'>
+				<label>Поставщик&nbsp;</label>
+				<select id='bill-seller' name='seller_id'>
+					<option value='0'>-- не выбран --</option>";
+foreach($sellers as $k=>$v)
+{
+    if ($seller_id == $k) $sel = "selected "; else $sel = "";
+    $page .= "<option $sel value='$k'>$v</option>";
+};
+$page .= "</select>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan='2'  id='cell-bill-comment'>
+				<label for='bill-comment'>Описание</label>
+				<input id='bill-comment' type='text' name='comment' value='$comment'>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan='2' id='cell-bill-content'>
+			    <label for='bill-content'>Содержание</label>
+			    <textarea id='bill-content' name='content' cols='50' rows='10'>$content</textarea>
+			</td>
+		</tr>
+
+		<tr>
+			<td id='cell-bill-file'>
+				<label for='bill-file'>Файл:</label>
+				<input id='bill-file' type='file' name='filename'>
+			</td>
+			<td id='cell-bill-summ'>
+				<label for='bill-summ'>Сумма:</label>
+				<input id='bill-summ' type='text' name='summ' value='$summ'><span class='valchar'>&nbsp;руб.</span>
+			</td>
+		</tr>
+        </table>
+
+    	<div class='buttons'>$btn_back";
+
+if ($stage == "mod")
+    {
+        $page .= "<div class='right'>$btn_remove_bill $btn_save_bill</div>
+                  <input type='hidden' name='stage' value='upd'>
+                </form>
+                <form method='post' name='del_bill'><input type='hidden' name='stage' value='del'></form>";
+    } else {
+    	$page .= "	<div class='right'>$btn_save_bill</div>
+					<input type='hidden' name='stage' value='add'>";
+    };
+$page .= "				</div>
+		</form>
+
+	</div>
+
+<!-- end add form -->
+";

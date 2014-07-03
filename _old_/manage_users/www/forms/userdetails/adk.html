@@ -1,0 +1,41 @@
+<script type="text/javascript">
+	var ADShow = true;
+</script>
+
+<style type="text/css">
+#AD label { 
+	width: 150px; 
+}
+</style>
+
+<h3 onclick="$('#AD').animate({'margin-top': (ADShow)*(-($('#AD').height()))}, AnimateSpeed); ADShow=(!ADShow)"><img src="/img/status_1.gif"/>&nbsp;Капотня</h3>
+<form id="fAD" name="fAD" method="Post">
+
+	<div id="AD" class="module">
+		<table width=100%>
+			<tr>
+				<td style="width: 33%">
+					<label>Учётка в АД:</label>
+					<input name="mod_ad_exist" type=checkbox value="1"/><br>
+
+					<label>Имя пользователя в АД:</label>
+					<input name="mod_ad_login" value="<?php echo $mod_ad_login; ?>"/><br>
+					
+					<label>Перемещаемыйsdf профиль</label>
+					<input name="mod_ad_roaming" type=checkbox value="<?php echo $mod_ad_roaming; ?>"/><br>
+					
+					<label>Пользователь НБКИ</label>
+					<input name="mod_ad_nbki" type=checkbox value="<?php echo $mod_ad_nbki; ?>"/><br>
+					
+					<label>Доступ к графикам</label>
+					<input name="mod_ad_graphics" type=checkbox value="<?php echo $mod_ad_graphics; ?>"/><br>
+				</td>
+			</tr>
+		</table>
+	
+		<div class="save-block">
+			<a href="javascript:document.forms('#fAD').submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить блок</a>
+		</div>
+	</div>
+
+</form>

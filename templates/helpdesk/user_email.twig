@@ -1,0 +1,203 @@
+{% spaceless %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; ">
+    <style type="text/css">
+        a {color: #08f}
+        a:hover {color: #f88; opacity: 1}
+        a:active {color: #f88; opacity: 1}
+        body { font-family: Arial, sans-serif; font-size: 13px; }
+        img { border: 0 }
+        #rating { position: relative; padding: 22px 15px 4px; display: inline; top: 2px;}
+        #rating a { padding: 0 2px; text-decoration: none; }
+        #rating:hover,
+        #rating:active {background: #f4f4f4 }
+        #s1 {opacity: 0.5; cursor: pointer}
+        #s1:hover,
+        #s1:active {opacity: 1}
+        #s1:hover #s2:not(:hover) a,
+        #s2:hover #s3:not(:hover) a,
+        #s3:hover #s4:not(:hover) a,
+        #s4:hover #s5:not(:hover) a,
+        #rating:not(:hover) #s1:active #s2:not(:active) a,
+        #rating:not(:hover) #s2:active #s3:not(:active) a,
+        #rating:not(:hover) #s3:active #s4:not(:active) a,
+        #rating:not(:hover) #s4:active #s5:not(:active) a { opacity: 0.5 }
+
+        .title {display: none}
+        #rating:not(:hover) a:active .title,
+        a:hover .title {
+            display: inline;
+            position: absolute;
+            top: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #333333;
+        }
+
+    </style>
+    <title>
+    </title>
+</head>
+
+<body>
+    {% if action=='your_ticket_created' %}
+        {% set url="client?u=" ~ login %}
+    <h3>
+        <a href="http://utils.avto-sale.local/helpdesk/client?u={{ login }}&ticket={{ id }}">#{{ id }}. {{ title }}.</a>
+    </h3>
+        <p>
+            Заявка успешно создана. В ближайшее время будет назначен исполнитель.
+            О ходе работ по заявке вы будете проинформированы.
+        </p>
+        <p>
+            Информацию о всех своих заявках, вы можете посмотреть в
+           <a href="http://utils.avto-sale.local/helpdesk/client?u={{ login }}&list">Задачнике ИТ</a>
+        </p>
+    {% elseif action=='somebody_change_user_ticket_status' %}
+        {% set url="client?u=" ~ creator_login %}
+        <h3>
+            <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}">#{{ id }}. {{ title }}.</a>
+        </h3>
+        <p>
+            Пользователь <b>{{ changer }}</b> {{ STATUSES_ACTIONS[status] }} вашу заявку
+            <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}">#{{ id }}</a><!--
+         -->{% if not comment is empty %}
+                    с комментарием:
+                </p>
+                <p style="font-style: italic">
+                    {{ comment | nl2br }}
+            {% else %}.<!--
+         -->{% endif %}
+
+        </p>
+
+        {% if status in [4,6] %}
+            Пожалуйста, оцените качество выполнения работ по заявке:
+            <div id='rating'>
+                <span id='s1'>
+                    <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=1">
+                        <img src='cid:rate_3_min.png'/>
+                        <span class='title'> Очень плохо! </span>
+                    </a>
+                    <span id='s2'>
+                        <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=2">
+                            <img src='cid:rate_3_min.png'/>
+                            <span class='title'> Плохо </span>
+                        </a>
+                        <span id='s3'>
+                            <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=3">
+                                <img src='cid:rate_3_min.png'/>
+                                <span class='title'> Удовлетворительно </span>
+                            </a>
+                            <span id='s4'>
+                                <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=4">
+                                    <img src='cid:rate_3_min.png'/>
+                                    <span class='title'> Хорошо </span>
+                                </a>
+                                <span id='s5'>
+                                    <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=5">
+                                        <img src='cid:rate_3_min.png'/>
+                                        <span class='title'> Отлично! </span>
+                                    </a>
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+            <br>
+        {% endif %}
+    {% elseif action=='somebody_change_admin_ticket_status' %}
+        {% set url="" %}
+        <h3>
+            <a href="http://utils.avto-sale.local/helpdesk/?stage=edit&id={{ id }}">#{{ id }}. {{ title }}.</a>
+        </h3>
+        <p>
+            <b>{{ changer }}</b> {{ STATUSES_ACTIONS[status] }} вашу заявку
+            <a href="http://utils.avto-sale.local/helpdesk/?stage=edit&id={{ id }}">#{{ id }}</a><!--
+         -->{% if not comment is empty %}
+                    с комментарием:
+                </p>
+                <p style="font-style: italic; font-family: serif">
+                    "{{ comment }}"
+            {% else %}.<!--
+         -->{% endif %}
+
+        </p>
+        {% if status in [4,6] %}
+            Пожалуйста, оцените качество выполнения работ по заявке:
+            <div id='rating'>
+                <span id='s1'>
+                    <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=1">
+                        <img src='cid:rate_3_min.png'/>
+                        <span class='title'> Очень плохо! </span>
+                    </a>
+                    <span id='s2'>
+                        <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=2">
+                            <img src='cid:rate_3_min.png'/>
+                            <span class='title'> Плохо </span>
+                        </a>
+                        <span id='s3'>
+                            <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=3">
+                                <img src='cid:rate_3_min.png'/>
+                                <span class='title'> Удовлетворительно </span>
+                            </a>
+                            <span id='s4'>
+                                <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=4">
+                                    <img src='cid:rate_3_min.png'/>
+                                    <span class='title'> Хорошо </span>
+                                </a>
+                                <span id='s5'>
+                                    <a href="http://utils.avto-sale.local/helpdesk/client?u={{ creator_login }}&ticket={{ id }}&r=5">
+                                        <img src='cid:rate_3_min.png'/>
+                                        <span class='title'> Отлично! </span>
+                                    </a>
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+                </span>
+            </div>
+            <br>
+        {% endif %}
+
+    {% elseif action=='you_are_performer' %}
+        {% set url="" %}
+        <h3>
+            <a href="http://utils.avto-sale.local/helpdesk?stage=edit&id={{ id }}">#{{ id }}. {{ title }}.</a>
+        </h3>
+        <p>
+            {{ changer }} назначил вас исполнителем заявки "{{ title }}".
+            <a href="http://utils.avto-sale.local/helpdesk?stage=edit&id={{ id }}">Подробнее...</a>
+        </p>
+    {% elseif action=='user_add_comment' %}
+        {% set url="" %}
+        <h3>
+            <a href="http://utils.avto-sale.local/helpdesk/?stage=edit&id={{ id }}">#{{ id }}. {{ title }}.</a>
+        </h3>
+        <p>
+        Пользователь оставил комментарий к вашей заявке:
+        </p>
+        <p style="font-style: italic; font-family: serif">
+            "{{ comment }}"
+        </p>
+    {% endif %}
+
+    <br>
+    <hr>
+
+    <p style="font-size:0.8em; color:Gray;">
+        Это сообщение отправлено автоматически из
+        <a href="http://utils.avto-sale.local/helpdesk/{{ url }}">Задачника</a>,
+        пожалуйста не отвечайте на него.
+    </p>
+</body>
+
+</html>
+{% endspaceless %}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-spacing: 0;
+        }
+
+        body {
+            padding: 100px;
+            text-align: center;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            text-align: right;
+            width: 600px;
+        }
+
+        li {
+            margin: 0;
+            padding: 0;
+            font-size: .75rem;
+        }
+
+        .tag {
+            background: hsl(0, 0%, 90%);
+            background: -webkit-linear-gradient(top, hsl(0, 0%, 96%), hsl(0, 0%, 93%));
+            color: hsl(0, 0%, 67%);
+            text-shadow: 1px 1px 0 hsl(0, 0%, 98%);
+            padding: 0 4px 1px 13px;
+            border-radius: 10px 3px 3px 10px;
+            border: 1px solid;
+            border-color: hsl(0, 0%, 94%) hsl(0, 0%, 85%) hsl(0, 0%, 85%) hsl(0, 0%, 94%);
+            font-size: .75rem;
+            font-family: Arial, sans-serif;
+            position: relative;
+            margin: 1px 2px;
+            display: inline-block;
+            opacity: .7;
+            box-shadow: 1px 1px 2px hsla(0, 0%, 0%, .1);
+        }
+
+        .tag.active {
+            background: hsl(60, 100%, 80%);
+            background: -webkit-linear-gradient(top, hsl(60, 80%, 85%), hsl(60, 80%, 60%));
+            color: hsl(60, 90%, 25%);
+            border-color: hsl(60, 75%, 75%) hsl(60, 75%, 45%) hsl(60, 75%, 45%) hsl(60, 75%, 60%);
+            text-shadow: 1px 1px 0 hsl(60, 100%, 95%);
+        }
+
+        .tag:before {
+            content: "";
+            position: absolute;
+            top: .3rem;
+            left: 4px;
+            width: 4px;
+            height: 4px;
+            display: block;
+            background: #fff;
+            border: 1px solid;
+            border-color: hsl(0, 0%, 80%) hsl(0, 0%, 90%) hsl(0, 0%, 90%) hsl(0, 0%, 80%) ;
+            border-radius: 3px;
+        }
+
+        .tag.active:before {
+            border-color: hsl(60, 75%, 45%) hsl(60, 75%, 65%) hsl(60, 75%, 65%) hsl(60, 75%, 45%);
+        }
+
+        .tag.active.orange {
+            background: hsl(40, 100%, 80%);
+            background: -webkit-linear-gradient(top, hsl(40, 100%, 90%), hsl(40, 100%, 75%));
+            color: hsl(40, 75%, 30%);
+            border-color: hsl(40, 75%, 85%) hsl(40, 75%, 70%) hsl(40, 75%, 70%) hsl(40, 75%, 85%);
+            text-shadow: 1px 1px 0 hsl(40, 100%, 92%);
+        }
+
+        .tag.active.orange:before {
+            border-color: hsl(40, 75%, 60%) hsl(40, 75%, 85%) hsl(40, 75%, 85%) hsl(40, 75%, 60%) ;
+        }
+
+        .tag.active.green {
+            background: hsl(90, 100%, 80%);
+            background: -webkit-linear-gradient(top, hsl(90, 100%, 90%), hsl(90, 100%, 75%));
+            color: hsl(90, 75%, 30%);
+            border-color: hsl(90, 75%, 85%) hsl(90, 75%, 70%) hsl(90, 75%, 70%) hsl(90, 75%, 85%);
+            text-shadow: 1px 1px 0 hsl(90, 100%, 92%);
+        }
+
+        .tag.active.green:before {
+            border-color: hsl(90, 75%, 60%) hsl(90, 75%, 85%) hsl(90, 75%, 85%) hsl(90, 75%, 60%) ;
+        }
+
+        .tag.active.blue {
+            background: hsl(220, 100%, 80%);
+            background: -webkit-linear-gradient(top, hsl(220, 100%, 95%), hsl(220, 100%, 85%));
+            color: hsl(220, 75%, 45%);
+            border-color: hsl(220, 75%, 91%) hsl(220, 75%, 75%) hsl(220, 75%, 75%) hsl(220, 75%, 85%);
+            text-shadow: 1px 1px 0 hsl(220, 100%, 92%);
+        }
+
+        .tag.active.blue:before {
+            border-color: hsl(220, 75%, 75%) hsl(220, 75%, 90%) hsl(220, 75%, 90%) hsl(220, 75%, 75%);
+        }
+
+        .tag.active.red {
+            background: hsl(10, 100%, 80%);
+            background: -webkit-linear-gradient(top, hsl(10, 100%, 90%), hsl(10, 100%, 75%));
+            color: hsl(0, 75%, 30%);
+            border-color: hsl(10, 75%, 85%) hsl(10, 75%, 70%) hsl(10, 75%, 70%) hsl(10, 75%, 85%);
+            text-shadow: 1px 1px 0 hsl(10, 100%, 92%);
+        }
+
+        .tag.active.red:before {
+            border-color: hsl(10, 75%, 60%) hsl(10, 75%, 85%) hsl(10, 75%, 85%) hsl(10, 75%, 60%) ;
+        }
+
+        .tag.active.silver {
+            background: hsl(0, 0%, 90%);
+            background: -webkit-linear-gradient(top, hsl(0, 0%, 95%), hsl(0, 0%, 85%));
+            color: hsl(0, 0%, 45%);
+            border-color: hsl(0, 0%, 90%) hsl(0, 0%, 80%) hsl(0, 0%, 80%) hsl(0, 0%, 90%);
+            text-shadow: 1px 1px 0 hsl(0, 0%, 95%);
+        }
+
+        .tag.active.silver:before {
+            border-color: hsl(0, 0%, 80%) hsl(0, 0%, 90%) hsl(0, 0%, 90%) hsl(0, 0%, 80%) ;
+        }
+
+    </style>
+    <script src="/stat/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.tag').click(function(){
+               $(this).toggleClass("active");
+            });
+        });
+    </script>
+</head>
+<body>
+    <ul>
+        <li><a class="tag red">авария</a></li>
+        <li><a class="tag green">автоматизация</a></li>
+        <li><a class="tag orange">бухгалтерия</a></li>
+        <li><a class="tag red">важно</a></li>
+        <li><a class="tag">видеонаблюдение</a></li>
+        <li><a class="tag blue">закупка</a></li>
+        <li><a class="tag red">сервера</a></li>
+        <li><a class="tag">скс</a></li>
+        <li><a class="tag">тех.поддержка</a></li>
+    </ul>
+</body>
+</html>

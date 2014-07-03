@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	var TemplateShow = true;
+</script>
+
+<h3 onclick="$('#Template').animate({'margin-top': (TemplateShow)*(-($('#Template').height()))}, AnimateSpeed); TemplateShow=(!TemplateShow)"><img src="/img/status_2.gif"/>&nbsp;Block_name</h3>
+<form id="fTemplate" name="fTemplate" method="Post">
+
+	<div id="Template" class="module">
+		<table width=100%>
+			<tr>
+				<td style="text-align: center">
+					Put some parameters here
+				</td>
+			</tr>
+		</table>
+	
+		<div class="save-block">
+			<a href="javascript:document.fTemplate.submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить блок</a>
+		</div>
+	</div>
+</form>

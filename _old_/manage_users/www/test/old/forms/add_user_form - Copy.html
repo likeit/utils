@@ -1,0 +1,72 @@
+
+<form method="get">
+  <table border="0">
+  <tr align="center">
+    <td colspan="2"><strong>Заявка на регистрацию нового сотрудника</strong></td>
+  </tr>
+  <tr>
+    <td>ФИО:</td>
+    <td width="300"><input name="fio" type="text" id="textfield" size="50" maxlength="255" /></td>
+  </tr>
+  <tr>
+    <td>Дата рождения:</td>
+    <td width="300">
+      <input name="birth_day" type="text" size="3" maxlength="2" />&nbsp;.
+      <input name="birth_month" type="text" size="3" maxlength="2" />&nbsp;.
+      <input name="birth_year" type="text" size="5" maxlength="4" />&nbsp;(ДД.ММ.ГГГГ)
+      </td>
+  </tr>
+  <tr>
+    <td>Должность:</td>
+    <td width="300">
+	<select name="position">
+      <option selected="selected">- Нет -</option>
+      <option value="Оператор">Оператор</option>
+	  <option value="Системный администратор">Системный администратор</option>
+    </select>
+	</td>
+  </tr>
+  <tr>
+    <td>Отдел:</td>
+    <td width="300">
+	<select name="department">
+      <option selected="selected">- Нет -</option>
+      <option value="СКС">СКС</option>
+      <option value="Отдел продаж">Отдел продаж</option>
+      <option value="Корпоративнй отдел">Корпоративнй отдел</option>
+      <option value="Бухгалтерия">Бухгалтерия</option>
+      <option value="Отдел персонала">Отдел персонала</option>
+    </select></td>
+  </tr>
+  <tr>
+    <td>Территория:</td>
+    <td width="300">
+	<select name="territory">
+      <option value="Все" selected="selected">- Все -</option>
+      <option value="Капотня">Капотня</option>
+      <option value="Дмитровка">Дмитровка</option>
+      <option value="Тёплый стан">Тёплый стан</option>
+      <option value="Курская">Курская</option>
+    </select>
+	</td>
+  </tr>
+  <tr>
+    <td>Фото:</td>
+    <td width="300"><input name="photo_name" type="file" size="30" /></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+   	<fieldset>
+	<legend>Регистрация в:</legend>
+        <table width="100%">
+        <tr><td><input type="checkbox" name="ad" />&nbsp;AD</td><td><input type="checkbox" name="infra" />&nbsp;Infra</td></tr> 
+        <tr><td><input type="checkbox" name="post" />&nbsp;Почта</td><td><input type="checkbox" name="adm_site" />&nbsp;Админка сайта</td></tr> 
+        <tr><td><input type="checkbox" name="1c" />&nbsp;1с</td><td><input type="checkbox" name="jabber" />&nbsp;Jabber</td></tr>
+        </table>
+	</fieldset>
+      </td>
+    </tr>
+  <tr align="center">
+    <td colspan="2"><input type="submit" name="add_next" value="Отпраить" /></td>
+  </tr>
+</table>

@@ -1,0 +1,48 @@
+<div id="list_container"> 
+
+	<div id="tableheader">
+		<div class="top_buttons"><a href="index.php?action=add">+&nbsp;Новый&nbsp;сотрудник</a></div>
+		<div class="filter_fio">
+			<form name="filter_fio" method="post">
+				<input type="hidden" name="stage" value="find">
+				<input id="find_text" name="find_text" type="search" value="<?php echo $find_text; ?>" placeholder="Введите Фамилию...">
+				<a href="javascript:document.filter_fio.submit()">&nbsp;>>></a>
+			</form>
+		</div>
+		<?php echo $page_menu; ?>
+	</div>
+	
+	
+	<table id="userlist">
+		<tr>
+			<th class="status">&#x2714;</th>
+			<th class="photo"><img src="img/photo.gif"/></th>
+			<th class="fio">ФИО</th>
+			<th class="area">Территория</th>
+			<th class="gild">Организация</th>
+			<th class="post">Должность</th>
+			<th class="date">Дата заявки</th>
+		</tr>
+
+		<?php
+		foreach($all_users[0] as $all_users_arr)
+		{
+		echo "<tr>\r\n";
+		echo "<td class=\"status\"><a href=# title=\"".$cfg_status_names[$all_users_arr['status']]."\"><img src=\"/img/status_".$all_users_arr['status'].".png\"/></a></td>\r\n";
+		if ($all_users_arr['photo']) echo "<td class=\"photo\"><a href=\"photos/".$all_users_arr['photo']."\">1</a></td>\r\n"; else echo "<td target=\"_blank\" class=\"photo\">&nbsp;</td>\r\n";
+		echo "<td class=\"fio\" title=\"".$all_users_arr['fio1']." ".$all_users_arr['fio2']." ".$all_users_arr['fio3']."\"><a href=\"?action=edit&uid=".$all_users_arr['id']."\">".$all_users_arr['fio1']." ".$all_users_arr['fio2']."</a></td>\r\n";
+		echo "<td class=\"area\">".$areas[$all_users_arr['area_id']]."</td>\r\n";
+		echo "<td class=\"gild\">".$gilds[$all_users_arr['gild_id']]."</td>\r\n";
+		echo "<td class=\"post\">".$posts[$all_users_arr['post_id']]."</td>\r\n";
+		echo "<td class=\"date\">".$all_users_arr['date_add']."</td>\r\n";
+		echo "</tr>\r\n";
+		};
+		?>
+	</table>
+	
+	<div id="tablefooter">
+		<div class="top_buttons"><?php echo $btn_show_del; ?></div>
+		<?php echo $page_menu; ?>
+	</div>
+	
+</div>

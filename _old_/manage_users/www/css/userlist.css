@@ -1,0 +1,165 @@
+#list_container {
+	margin: 0 auto;
+	text-align: center;
+	width: 70%;
+	max-width: 60em;
+
+}
+
+/*	ПАНЕЛЬ НАД СПИСКОМ СОТРУДНИКОВ*/
+#list_container div#tableheader {
+	width: 100%;
+	height: 1em;
+	padding: 0 0 .6em;
+	_background-color: magenta;
+}
+
+#list_container div#tablefooter {
+	width: 100%;
+	height: 1em;
+	padding: .6em 0;
+	_background-color: red;
+}
+
+/*	КНОПКИ НАД СПИСКОМ СОТРУДНИКОВ */
+#list_container div.top_buttons {
+	float: left;
+	width: 25%;
+	text-align: left;
+}
+
+#list_container div.top_buttons a,
+			   #userlist td.fio a		{border-bottom: .1em dashed #06c}
+
+#list_container div.top_buttons a:hover,
+			   #userlist td.fio a:hover	{border-bottom: .1em dashed #08f}
+
+
+			   
+/*	ПОИСК ПО ФАМИЛИИ	*/
+div.filter_fio			{ float: left;	width: 50%  }
+div.filter_fio input	{ margin: 0;	width: 10.5em }
+div.filter_fio input:-moz-placeholder			{ color: #bbb; font-style: italic } 
+div.filter_fio input::-webkit-input-placeholder	{ color: #bbb; font-style: italic }
+div.filter_fio a		{ letter-spacing: -.3em }
+
+			   
+/*	НОМЕРА СТРАНИЦ	*/
+#list_container div.pages {
+	cursor: default;
+	float: right;
+	width: 25%;
+	text-align: right;
+	_background: red;
+}
+
+#list_container div.pages,
+#list_container div.pages a {
+	font-family: Arial, Helvetica, Verdana;
+	font-weight: normal;
+}
+
+#list_container div.pages a:hover {text-decoration: underline}
+
+#list_container div.pages .curpage {
+	color: #000;
+	background: #ddd;
+}
+
+#list_container div.pages a,
+#list_container div.pages .curpage {
+	display: inline-block;
+	text-align: center;
+	padding: 0 .35em;
+}
+
+
+
+/*	СПИСОК СОТРУДНИКОВ	*/
+#userlist {
+	background: hsl(200,0%,94%);
+	cursor: default;
+	color: #333;
+	margin: 0 auto 0;
+	border: 1px solid #bbb;
+	border-collapse: collapse;
+	box-shadow: 2px 2px 3px rgba(0,0,0,.6);
+	width: 100%;
+	table-layout: fixed;
+	clear: both;
+}
+
+/*	ШАПКА СПИСКА	*/
+#userlist th:first-of-type {border-left: 1px solid #999}
+#userlist th:last-of-type {border-right: 1px solid #777}
+
+#userlist td,
+#userlist th{
+	text-align: center;
+	overflow: hidden;
+	padding: 5px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+#userlist th.status	{width: 2em}
+#userlist th.photo	{width: 2em}
+#userlist th.area	{width: 15%}
+#userlist th.gild	{width: 20%}
+#userlist th.post	{width: 25%}
+#userlist th.date	{width: 6em}
+#userlist th {
+	border-width: 1px;
+	border-color: #b0b0b0 rgba(255,255,255,.2) #555;
+	border-style: solid;
+	background: #999;
+	background:  -webkit-linear-gradient(top, #bbb, #666);
+	background: 	-moz-linear-gradient(top, #bbb, #666);
+	background: 	  -o-linear-gradient(top, #bbb, #666);
+	background: 		 linear-gradient(top, #bbb, #666);
+	color: #f8f8f8;
+	font-family: Tahoma;
+	font-weight: normal;
+}
+
+#userlist th a {color: #f8f8f8; border-bottom: 1px dashed #f8f8f8}
+
+/* ЧЕРЕДОВАНИЕ ЦВЕТА СТРОКИ */
+#userlist tr:nth-last-child(2n){background-color: hsl(200,0%,97%)}
+
+/* ПОДСВЕТКА АКТИВНОЙ СТРОКИ СТРОКИ */
+#userlist tr:hover						{ background-color: hsl(205,80%,88%); color: #000 }
+#userlist tr:hover:nth-last-child(2n)		{ background-color: hsl(205,80%,90%) }
+
+/*	СТОЛБЦЫ UID и ФИО	*/
+#userlist td.fio		{text-align: left}
+#userlist td.fio	a	{border-bottom-style: none}
+#userlist td.date	{text-align: right}
+
+/*	КНОПКИ РЕДАКТИРОВАНИЯ	*/
+/*#userlist td.edit,
+#userlist td.move,
+#userlist td.fire {
+	font-size: 2em;
+	margin-top: -.1em;
+	display: inline-block;
+	padding: 0 2px;
+}
+
+#userlist td.edit a{color: #080}
+#userlist td.move a{color: #b60}
+#userlist td.fire a{color: #b00}
+
+#userlist td.edit:hover,
+#userlist td.move:hover,
+#userlist td.fire:hover {
+	text-shadow: #fff 0 0 5px,#fff 0 0 4px,#fff 0 0 3px,#fff 0 0 2px;
+}
+
+#userlist td.edit a:hover {color: #0b0}
+#userlist td.move a:hover {color: #f80}
+#userlist td.fire a:hover {color: #e00}*/
+
+button {
+	background: red;
+	color: lime;
+}

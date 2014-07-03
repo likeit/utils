@@ -1,0 +1,37 @@
+				<div id="main">
+		<!--<ul class="menu">
+				<li id="tab1" class="active">Общая информация</li>
+				<li id="tab2">Дополнительно</li>
+			<	li id="tab3">AExpres</li>
+		</ul>-->
+		<span class="clear"></span>
+			<div class="content tab1" id="tab1">
+				<form id="form1" name="form1" method="post" onsubmit="CheckAll('tab1')">
+				<div class="column" style="width: 45%">
+					<label class="req">ФИО:</label>	
+					<input name="form_admin_fio" value="<?php echo $admin_fio; ?>" required="required"><br>
+					<label class="req">Логин:</label>		
+					<input name="form_admin" value="<?php echo $admin; ?>" required="required"><br>
+					<label class="req">Пароль:</label>
+					<input name="form_admin_pass" value="" required="required"><br>
+				</div>
+				<div class="column" style="width: 55%">
+					<label class="req">Группа:</label>
+					<select name="form_permission_id" class="req" title="Группа безопасности">
+					<?php 	foreach($cfg_permissions as $id => $name) {
+							$selected = ($permission_id == $id) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$id.'">'.$name.'</option>';  
+														}; ?>
+					</select><br>
+					<label class="req">e-mail:</label>
+					<input name="form_admin_email" style="width: 66%" value="<?php echo $admin_email; ?>" required="required"><br>
+				</div>
+				<input type="hidden" name="action" value="cabinet_edit" />				
+				</form>
+			<div class="buttons">
+				<a href="index.php" class="button prev">Вернуться</a>
+				<a href="javascript:document.form1.submit()" class="button save" id="savebutton">Сохранить</a>
+			</div>
+			</div>
+				</div>
+	</div>

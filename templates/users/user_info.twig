@@ -1,0 +1,115 @@
+{% spaceless %}
+<div class="popup_window unsensitive" data-id='{{ uid }}'>
+    <table>
+        <tr>
+            {% if photo %}
+                <td rowspan='9' class='photo'>
+                    {% if permissions['users'] != 'deny' %}
+                        <a href='/users/?stage=mod&uid={{ uid }}' class="photo_link" tabindex='1'>
+                    {% endif %}
+                            <img class='photo_img' src='/users/photos/{{ photo }}'/>
+                    {% if permissions['users'] != 'deny' %}
+                        </a>
+                    {% endif %}
+                </td>
+            {%  endif %}
+
+            <td rowspan='9' class='status'>
+                <img class='status_img' title='{{ status }}' src='/stat/img/new_status_{{ status_id }}.png'/>
+            </td>
+
+            <td colspan='2'>
+                <span class='fio' id='data_fio'>{{ lastname }} {{ firstname }} {{ middlename }}</span>
+                {% if permissions['users'] != 'deny' %}
+                    <a href='/users/?stage=mod&uid={{ uid }}' class='edit icon' tabindex='1'>
+                        <img src='/stat/img/edit.png' title='Редактировать'>
+                    </a>
+                    <a href='/users/?stage=preview&uid={{ uid }}' class='email icon' tabindex='2'>
+                        <img src='/stat/img/email.png' title='Отправить карточку в отдел кадров'>
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr class='bottom-line'>
+            {% if post or area %}
+                <td colspan='2'>
+                    {% if post %}
+                        <span class="data">
+                            {{ post }}</span>{% endif %}{% if post and area %},{% endif %}
+
+                    {% if area %}
+                        {% if area_id==2 %}
+                            {% set area = "все территории" %}
+                        {% endif %}
+                        <span class='data'>{{ area }}</span>
+                    {%  endif %}
+                </td>
+            {% endif %}
+        </tr>
+
+        <tr class='spacer'></tr>
+
+        {#{% if workstation %}#}
+        <tr class="availability {{ workstation ? "online" }}">
+                <td>
+                    <span class="online-label">онлайн</span>
+                    <span class="offline-label">оффлайн</span>
+                </td>
+                <td class='data' title="{{ logon_time | date ("G:i, j.m.Y") }}{{ logon_ip ? "\nIP: " ~ logon_ip ~ "" }}">
+                    <a class="workstation" href="/helpdesk/rdp.php?username={{ login }}&domain={{ domain }}&ip={{ logon_ip }}" download="{{ workstation }}.rdp">
+                        <img class="icon" src="/stat/img/helpdesk/rdp.png"/><span class="workstation_name">{{ workstation }}</span></a>
+                    {#<span class="logon-ip">{{ logon_ip ? "(" ~ logon_ip ~ ")" }}</span>#}
+                </td>
+        </tr>
+        {#{%  endif %}#}
+
+        {#<tr class='spacer'></tr>#}
+
+        <tr>
+            {% if login %}
+                <td class='label'>Логин</td>
+                <td class='data'>{{ login }}</td>
+            {%  endif %}
+        </tr>
+
+        <tr>
+            {% if login_ae %}
+                <td class='label'>Логин&nbsp;АЕxpres</td>
+                <td class='data'>{{ login_ae }}</td>
+            {%  endif %}
+        </tr>
+
+        <tr>
+            {% if pass and permissions['users'] != 'deny' %}
+                <td class='label'>Пароль</td>
+                <td class='data password'>{{ pass }}</td>
+            {%  endif %}
+        </tr>
+
+        <tr>
+            {% if email %}
+                <td class='label'>Email</td>
+                <td class='data'>{{ email }}</td>
+            {%  endif %}
+        </tr>
+
+        <tr>
+            {% if tel %}
+                <td class='label'>Телефон</td>
+                <td class='data'>{{ tel }}</td>
+            {%  endif %}
+        </tr>
+
+        <tr class='spacer'></tr>
+
+        {% if comment  and permissions['users'] != 'deny'%}
+            <tr><td colspan='4' class='data comment'>{{ comment }}</td></tr>
+        {%  endif %}
+
+        {% if modiff and modiff_user and permissions['users'] != 'deny'%}
+            <tr class='top-line'><td colspan='4' class='hint' title='Изменил'>{{ modiff_user }}, {{ modiff }}</td></tr>
+        {%  endif %}
+    </table>
+</div>
+{% endspaceless %}

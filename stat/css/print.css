@@ -1,0 +1,105 @@
+
+body    { color: #444; font: .5rem Arial }
+a       { color: #000; text-decoration: none }
+
+.ticket_id,
+.top-panel,
+.table-footer,
+.buttons,
+.popup_window,
+.searchbox,
+.filter,
+.popup_menu,
+.popup_menu,
+input {
+    display: none;
+    visibility: hidden;
+}
+
+.col-area,
+.col-performers {
+    width: 5rem;
+}
+
+th.status { visibility: hidden}
+
+td.creator,
+th.creator,
+th.weight,
+td.weight,
+td.type,
+th.type_weight,
+td.category,
+th.category_weight,
+td.changed,
+th.changed,
+td.rate,
+th.rate {
+    display: none;
+}
+
+th {
+    font-size: .6rem;
+    font-weight: normal;
+}
+
+th a { color: #bbb }
+
+td { height: 1rem; border-top: 1px solid #ccc}
+
+.list_view_buttons {
+    display: none;
+}
+
+.report {
+    margin-top: 2rem;
+}
+
+.report_container,
+.report {
+    width: 100%;
+}
+
+.col-counts { width: 25% }
+.col-rating { width: 25% }
+
+.report_container h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.report th {
+    font-size: .9rem;
+}
+
+.report td {
+    line-height: 40px;
+    padding: 0 5px;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.report .fio {
+    text-align: left;
+}
+
+.report .datanumbers { margin: 1px }
+
+.report td {
+    border: none;
+}
+
+.report tr:first-of-type th{
+    border-bottom: 1px solid #bbb;
+    font-weight: bold;
+}
+
+.report tr:last-of-type td {
+    border-top: 1px solid #bbb;
+    font-weight: bold;
+}
+
+.report tr:nth-child(even) {
+    background: #f8f8f8;
+}

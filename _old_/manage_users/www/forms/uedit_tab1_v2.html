@@ -1,0 +1,68 @@
+			<div class="content_v2 tab1" id="tab1">
+<!--				<div class="photo">
+					<div class="photoimg"><img src='img/anonymous.png')>sssssssssss</img></div>
+					<div class="helper"></div>
+				</div>-->
+				
+				<form id="form1" name="form1" method="post" onsubmit="CheckAll('tab1')">
+				<div class="column" style="width: 45%">
+					<label id="fio1_label" class="req">Фамилия:</label>	
+					<input name="fio1" class="fio req" value="<?php echo $fio1; ?>" /><br>
+					
+					<label id="fio2_label" class="req">Имя:</label>		
+					<input name="fio2" class="fio req" value="<?php echo $fio2; ?>" /><br>
+					
+					<label id="fio3_label" class="req">Отчество:</label>
+					<input name="fio3" class="fio req" value="<?php echo $fio3; ?>" /><br>
+					
+					<label>Дата рождения:</label>						
+					<input name="date" id="date" title="Формат даты: 21.12.2012" value="<?php if ($date>0) echo $date; ?>" /><br>
+					
+				</div>
+				<div class="column" style="width: 55%">
+				
+					<label id="area_id_label" class="req">Территория :</label>
+					<select name="area_id" class="req" id="area_id" title="Территория">
+					<?php
+						for ($i=1; $i <= count($area); $i++) {
+							$selected = ($area_id == $area[$i]['id']) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$area[$i]['id'].'">'.$area[$i]['name'].'</option>';
+															};
+					?>
+					</select><br>
+					
+					<label id="gild_id_label" class="req">Организация:</label>
+					<select name="gild_id" class="req">
+					<?php
+						for ($i=1; $i <= count($gild); $i++) {
+							$selected = ($gild_id == $gild[$i]['id']) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$gild[$i]['id'].'">'.$gild[$i]['name'].'</option>';
+															};
+					?>
+					</select><br>
+					
+					<label id="post_id_label" class="req">Должность:</label>
+					<select name="post_id" class="req">
+					<?php
+						for ($i=1; $i <= count($post); $i++) {
+							$selected = ($post_id == $post[$i]['id']) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$post[$i]['id'].'">'.$post[$i]['name'].'</option>';
+															};
+					?>
+					</select><br>				
+				</div>
+				<div style="float: left; margin-top: 15px;">
+					<label>Комментарий:</label><br>
+					<textarea name="comment" title="Комментарий" style="width: 500px; height: 153px"><?php echo $comment; ?></textarea>
+					<input type="hidden" name="stage" value="save" />
+				</div>
+			</form>
+
+			<div class="buttons">
+				<a href="index.php" class="button prev">Вернуться</a>
+				<!--<a href="/?action=edit" class="button reset">Сброс</a>-->
+				<a href="javascript:document.form1.submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить</a>
+<!--				<a href="javascript:CheckAll('tab1')" class="button save" id=savebutton>Сохранить</a>-->
+<!--				<input type="hidden" name="stage" value="1" />-->
+			</div>
+		</div>

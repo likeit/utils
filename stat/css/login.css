@@ -1,0 +1,78 @@
+body {
+    background: #eee url("../img/bg.jpg");
+    font-size: .8rem;
+}
+
+.login {
+    background-color: #fff;
+    background: -webkit-linear-gradient(top, #f8f8f8, #eee);
+    background:    -moz-linear-gradient(top, #fff, #f8f8f8);
+    background:           linear-gradient(top, #fff, #f8f8f8);
+    box-shadow: 1px 1px 7px 1px hsla(0,0%,0%,.5);
+    box-shadow: 1px 1px 10px hsla(0,0%,0%,.6), 0px 0px 1px 0px hsla(0,0%,0%,.15);
+    border: 0px solid #777;
+    margin: 100px auto 0;
+    /*padding: 0;*/
+    width: 180px;
+}
+
+.formline,
+.msgline {
+    margin: 5px 0;
+}
+
+/*.login .formline,*/
+.login h3,
+.login .buttons
+{
+    text-align: center;
+}
+
+.login h3 {
+/*.login .buttons {*/
+    margin: 5px 0;
+}
+
+.login .buttons {
+    /*margin: 0px 0 10px;*/
+}
+
+.login h3,
+.login .buttons {
+    /*text-align: center;*/
+}
+
+.login input[type=text],
+.login input[type=password] {
+    width: 100%;
+    font-size: .8rem;
+    /*margin: 0 5px;*/
+    border-radius: 3px;
+    border: 1px solid;
+    border-color: hsl(215, 50%, 65%) hsl(215, 50%, 90%) hsl(215, 50%, 90%) hsl(215, 50%, 65%);
+    height: 1.5rem;
+    padding: 1px 6px;
+}
+
+.blueline {
+    background: #05a;
+    background: -webkit-linear-gradient(top, hsl(215, 90%, 80%), hsl(215, 90%, 75%) );
+    background:    -moz-linear-gradient(top, hsl(215, 90%, 80%), hsl(215, 90%, 75%) );
+    background:         linear-gradient(top, hsl(215, 90%, 80%), hsl(215, 90%, 75%) );
+    padding: 10px 15px 5px;
+}
+
+.login label {
+    color: #fff;
+    font-size: .75rem;
+    text-shadow:  1px 1px 0 hsla(215,100%,25%,0.2);
+}
+
+.login .center {
+    text-align: center;
+}
+
+.login input[type=checkbox] {
+    position: relative;
+    top: 2px;
+}

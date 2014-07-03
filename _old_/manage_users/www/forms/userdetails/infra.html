@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	var PhoneShow = true;
+</script>
+
+<h3 onclick="$('#Phone').animate({'margin-top': (PhoneShow)*(-($('#Phone').height()))}, AnimateSpeed); PhoneShow=(!PhoneShow)"><img src="/img/status_2.gif"/>&nbsp;Phone</h3>
+<form id="fPhone" name="fPhone" method="Post">
+
+	<div id="Phone" class="module">
+		<table width=100%>
+			<tr>
+				<td style="text-align: center">
+					Put some parameters here
+				</td>
+			</tr>
+		</table>
+	
+		<div class="save-block">
+			<a href="javascript:document.fPhone.submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить блок</a>
+		</div>
+	</div>
+</form>

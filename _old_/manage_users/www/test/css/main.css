@@ -1,0 +1,213 @@
+@CHARSET "UTF-8";
+
+* {
+	font-family: Arial, Helvetica, Verdana;
+	font-size: 0.96em;
+	margin: 0;
+    padding: 0;
+}
+
+body {
+	background: #fff;
+	margin: 5px 10px;
+}
+
+#pagename {
+	text-align: center;
+	_font-weight: bold;
+	padding: 20px;
+    width: 450px;
+	margin: 40px auto 80px;
+	background: #ffead0;
+	border: 1px solid;
+	border-color: #c0b8b0 #b0a8a0 #a08880 #b0a8a0;
+	border-radius:  4px;
+}
+
+#pagename h3 {
+	font-family: "Trebuchet MS";
+	font-size: 14pt;
+}
+
+#main{
+	width: 550px;
+	margin: 0 auto;
+}
+#main ul{
+	list-style: none;
+	list-style-position: outside;
+	z-index: -3;
+}
+
+#main ul.menu	{margin-left: 10px}
+
+#main ul.menu li	{
+	background: #e8e8e8;
+	border: 1px solid #aab;
+	color: #888;
+	cursor: pointer;
+	float: left;
+	1font-size: 0.85em;
+	font-weight: bold;
+	margin-left: 5px;
+	padding: 5px 10px;
+	position: relative;
+	top: 1px;
+	border-radius:  6px 6px 0 0;
+	box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+	margin-bottom: -2px;
+}
+#main ul.menu li.active {
+	background: #f3f3f3;
+	border-bottom: none;
+	margin-top: -1px;
+	box-shadow: -2px -2px 1px rgba(0, 0, 0, .1),2px -2px 1px rgba(0, 0, 0, .1);
+ 	_box-shadow: 0 0 0px rgba(0, 0, 0, 0.5) inset;
+
+	color: #ff6000;
+}
+
+.content {
+	background: #fffae8;
+	border: 1px solid #aab;
+	padding: 25px;
+	height: 345px;
+	border-radius: 6px;
+}
+
+.content.tab1					{display: block}
+.content.tab2, .content.tab3	{display: none}
+
+.photo  {
+	display: none;
+	width: 240px;
+	height: 320px;
+    margin: 0 auto;
+    text-align: center;
+    border: #888 1px dashed;
+	float: left;
+	background: rgba(0,0,0,0.1);
+	cursor: pointer;
+}
+
+.photoimg, .helper {
+        display: inline-block;
+        vertical-align: middle;
+}
+
+.helper {
+        width: 2;
+        height: 100%;
+}
+
+input, select, textarea {padding: 0; margin: 4px 0}
+
+.column input {border: 1px solid #ccc}
+
+input {padding: 0 2px; width: 120px; height: 20px;}
+label {color: #777}
+
+select {width: 185px; height: 20px;}
+
+input.blur, textarea.blur, select.blur, .blur{
+	color: #999;
+}
+
+.clear {clear: both; height: 0; display: block} 
+
+#Close	{float: right; cursor: pointer}
+
+#shadow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	overflow: auto;
+	opacity: 0.15;
+    z-index: 2;
+
+}
+
+.labels {
+	margin: 10px 0px;
+}
+
+.fio {
+	text-transform: capitalize;
+}
+
+.content {
+	position: relative;
+	background: #fff;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#pagename {
+        position: relative;
+		box-shadow:0 1px 3px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.1) inset;
+}
+
+#addphoto {
+	padding: 10px;
+	position: absolute;
+	top: 140px;
+	left: 50%;
+	width: 320px;
+	height: 480px;
+	background: #fff;
+	text-align: center;
+	margin-left: -160px;
+	display: none;
+	b1order: 1px solid black;
+	z-index: auto;
+}
+
+.content:before, .content:after, #pagename:before, #pagename:after {
+        content: "";
+        position: absolute;
+        z-index:-2;
+        bottom:15px;
+        left:10px;
+        width:50%;
+        height:20%;
+        max-width:300px;
+		box-shadow:0 20px 15px rgba(0, 0, 0, 0.7);
+		-webkit-transform:rotate(-3deg);
+		   -moz-transform:rotate(-3deg);
+			-ms-transform:rotate(-3deg);
+			 -o-transform:rotate(-3deg);
+		transform:rotate(-3deg);
+}
+
+.content:after, #pagename:after {
+    right:10px;
+    left:auto;
+    -webkit-transform:rotate(3deg);
+       -moz-transform:rotate(3deg);
+        -ms-transform:rotate(3deg);
+         -o-transform:rotate(3deg);
+            transform:rotate(3deg);
+}
+
+.active {
+		z-index: 1;
+        position:relative;
+        padding:1em;
+        background:#fff;
+		box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.15), -2px -2px 2px rgba(0, 0, 0, 0.15);
+}
+
+#pagename:before, #pagename:after {
+	bottom: 19px;
+	box-shadow:0 20px 10px rgba(0, 0, 0, 0.6);
+}
+
+#tab2, #tab3 {
+	visibility: hidden;
+}
+
+.column {
+	float: left; text-align: right;
+}

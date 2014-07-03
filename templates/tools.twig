@@ -1,0 +1,54 @@
+{% extends '/utils.twig' %}
+{% spaceless %}
+
+{% block search %}{% endblock search %}
+
+{% block content %}
+
+    {% block breadcrumbs %}
+        <div class="breadcrumbs">
+            <a class="_popup_button" href="/tools/">Каталог</a>
+            {% if cat %}
+                \ <a class="_popup_button" href="/tools/?cat={{ cat }}">{{ current_cat[cat].name }}</a>
+                {% if mark %}
+                    \ <a class="_popup_button" href="/tools/?cat={{ cat }}&mark={{ mark }}">{{ current_mark[mark].name }}</a>
+                    {% if group %}
+                      \  <a class="_popup_button" href="/tools/?cat={{ cat }}&mark={{ mark }}&group={{ group }}">{{ current_group[group].name }}</a>
+                        {% if model %}
+                            \  <a class="_popup_button" href="/tools/?cat={{ cat }}&mark={{ mark }}&group={{ group }}&model={{ model }}">{{ current_model[model].name }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+        <br/>
+    {% endblock breadcrumbs %}
+
+    {% if model %}
+    {% endif %}
+    {#Категория:#}
+    <ul id="select-cat">
+        {% if link == 'modification' %}
+            {% for id,item in list %}
+                <li>{{ item.name }} ({{ item.start_year }} - {{ item.end_year }})</li>
+            {% endfor %}
+        {% else %}
+            {% for id,item in list %}
+                <li><a href="{{ uri == "/tools/" ? uri ~ "?" : uri}}&{{ link }}={{ id }}">{{ item.name }}</a></li>
+            {% endfor %}
+        {% endif %}
+
+    </ul>
+
+    <br/>
+    {% if uri != "/tools/" %}
+        <a class="button red" href="javascript: history.back()">« Назад</a>
+    {% endif %}
+    <br/>
+    <br/>
+    <hr/>
+    <br/>
+    <a class="button green" href="/tools?update_catalog=1">Обновить каталог</a>
+{% endblock content %}
+
+{% endspaceless %}

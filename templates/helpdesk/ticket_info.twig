@@ -1,0 +1,42 @@
+{% spaceless %}
+<div class="popup_window ticket_info" data-id='{{ id }}'>
+    <div class=header>
+        <img src='/stat/img/helpdesk/status_{{ status }}.png'>
+        <img src='/stat/img/helpdesk/type_{{ types[type].weight }}.png'>
+        <img src='/stat/img/helpdesk/category_{{ categories[category].weight }}.png'>
+        <a href='./?stage=edit&id={{ id }}'>#{{ id }}
+            <span class='title'>{{ title }}</span>
+        </a>
+    </div>
+    <hr>
+    <div class='members'>
+        <ul>
+            <label class='member_label'>Поставил</label><br>
+            <li>{{ admins[creator].lastname }} {{ admins[creator].firstname }}</li>
+            <label  class='member_label'>Ответственный</label>
+            <li>{{ admins[contractor].lastname }} {{ admins[contractor].firstname }}</li>
+            <label class='member_label'>Исполнители</label>
+            <li>{{ admins[performers].lastname }} {{ admins[performers].firstname }}</li>
+        </ul>
+    </div>
+    <div class='details'>
+        <div class=dates>
+            <span class='created'>Создана: {{ created }}</span>
+            <span class='changed'>Изменена: {{ changed }}</span>
+            <span class='deadline'>Срок: {{ deadline }}</span>
+        </div>
+
+        <hr>
+
+        <div class=description><pre>{{ description }}</pre></div>
+        <hr>
+        <div class='last-comment'>
+            <div class="comment {{ comments[comments | length - 1].autocomment | replace({'1':'autocomment'}) }}">
+                <label class="commentator">{{ admins[comments[comments | length - 1].creator].lastname }} {{ admins[comments[comments | length - 1].creator].firstname }} </label>
+                <label class="comment_date">{{ comments[comments | length - 1].date | date("d.m.Y H:i")}} </label>
+                <p class='comment_text'>{{ comments[comments | length - 1].text | nl2br }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endspaceless %}

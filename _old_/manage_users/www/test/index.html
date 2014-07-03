@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Система учета сотрудников в ИТ-системе</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+
+	<script type="text/javascript" src="js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" src="js/jquery.tabs.js"></script>
+	<script type="text/javascript" src="js/jquery.hint.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		$(function(){$("#date").mask("99.99.9999");});
+		$(function(){$("#propusk_number").mask("9999999");});
+	</script>
+</head>
+
+<body>
+	<div align="right">Добро пожаловать,&nbsp;admin&nbsp;[&nbsp;<a href="logout.php">Выход</a>&nbsp;]</div>
+
+	
+	<div id="pagename"><h3>Заявка на регистрацию нового сотрудника<h3></div>
+
+	<div id="main">
+	
+	
+		<!-- *** MENU *** -->
+		<ul class="menu">
+			<li id="tab1" class="active">Общая информация</li>
+			<li id="tab2">Active Directory</li>
+			<li id="tab3">AExpres</li>
+
+		</ul>
+		<span class="clear"></span> <!-- НЕ УДАЛЯТЬ!!! -->
+		<!-- ** /MENU *** -->
+<!-- End Header -->		
+<!-- Begin Content -->		
+		<div class="content tab1">
+				<div class="photo">
+					<div class="photoimg"><img src='img/anonymous.png')></img></div>
+					<div class="helper"></div>  <!-- НЕ УДАЛЯТЬ!!! -->
+
+				</div>
+				
+				<form style="float: right; width: 500px">
+				<div class="column" style="width: 45%">
+					<label>Фамилия:</label>
+					<input name="fio1" class="fio" title="Фамилия"/><br>
+					<label>Имя:</label>
+					<input name="fio2" class="fio" title="Имя"/><br>
+					<label>Отчество:</label>
+
+					<input name="fio3" class="fio" title="Отчество"/><BR>
+					<label>Дата рождения:</label>
+					<input name="date" id="date" title="Дата рождения"/><BR>
+
+				</div>
+				<div class="column" style="width: 55%">
+				
+					<label>Территория:</label>
+					<select name="area_id">
+
+						<option value=0 selected>Нет</option>
+						<option value=2>Капотня</option>
+						<option value=3>Дмитровка</option>
+						<option value=4>Тёплый стан</option>
+						<option value=5>Курская</option>
+						<option value=1>Все</option>
+
+					</select><br>
+					
+					<label>Организация:</label>
+					<select name="gild_id">
+						<option value=0>Нет</option>
+						<option value=1>ООО "Антарион"</option>
+						<option value=2>ООО "Авто-Сейл"</option>
+						<option value=3>ООО "Диалог плюс"</option>
+
+						<option value=4>ООО "Комфорт-Сервис"</option>
+						<option value=5>ООО "Торговый дом А-С"</option>
+						<option value=6>ООО "Авторитейл"</option>
+						<option value=7>ООО "Трейдин-моторс"</option>
+						<option value=8>ООО "Геоника"</option>
+						<option value=9>ООО "Автовояж"</option>
+
+					</select><br>
+					
+					<label>Должность:</label>
+					<select name="post_id">
+						<option value=0>Нет</option>
+						<option value=1>Менеджер СКС</option>
+						<option value=2>Менеджер корп. отдела</option>
+						<option value=3>Кредитный эксперт</option>
+						<option value=4>Оформитель</option>
+						<option value=5>Администратор БД</option>
+						<option value=6>Системный администратор</option>
+						<option value=7>Начальник ОП</option>
+						<option value=8>Начальник СКС</option>
+						<option value=9>Менеджер ОП</option>
+
+					</select><br>
+
+					<label>Пропуск:</label>
+					<input name="propusk_number" id="propusk_number" title="" style="width: 180px"/><br>
+					<!--<input name="e-mail" title="E-Mail"><br>
+					<input name="login" title="Логин"/><br>
+					<input name="phone" title="Номер телефона"/><br>-->
+				
+				</div>
+				<div style="width: 100%; backgrou1nd: green; margin-top: 150px; text-align: left">
+					<label>Комментарий:</label><br>
+
+					<textarea name="comment" title="Комментарий" style="width: 500px; height: 153px"></textarea><br>
+					<input type="reset" class="buttons"/>&nbsp;
+					<input type="submit" class="buttons" name="stage" />
+				</div>
+			</form>
+			
+		</div>
+		
+		<div class="content tab2">
+			text2
+		</div>
+
+		<div class="content tab3">
+			text3
+		</div>
+
+		<div id=shadow style='display: none'></div>
+		
+		<!--<div id=addphoto">
+			<img src="img/x.png" id="Close" onclick="document.getElementById('addphoto').style.display='none';document.getElementById('shadow').style.display='none'"/>
+
+			<div class="labels"><b>Редактирование фото</b></div>
+			<div class="labels">Загрузите фотографию с диска:</div>
+
+			<div class="photo" style="float: none; cursor: default">
+				<div class="photoimg"><img src='img/anonymous.png')></img></div>
+				<div class="helper"></div>
+			</div>
+
+			<div>
+				<form name="addphotoform" enctype="multipart/form-data" method="post">
+					<input name="photo_name" type="file"/><br>
+
+					<input type="submit" name="stage" value="Сохранить"/>
+				</form>
+			</div>
+		</div>
+		--->
+		</div>
+<!-- End Content -->		
+	</div>
+</body>
+</html>

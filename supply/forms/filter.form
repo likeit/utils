@@ -1,0 +1,70 @@
+//<?php
+$page .= "
+<!-- begin filter -->
+<table class='supply list'>
+    <col class='col-status'/>
+    <col class='col-model'/>
+    <col class='col-full'/>
+    <col class='col-use'/>
+    <col class='col-area'/>
+    <col class='col-comment'/>
+
+    <tr>
+        <form name='form' method='get'>
+            <th class='status' title='Соотношение количества полных картриджей к установленным'>
+                <img src='/stat/img/supply_status_0.png'>
+            </th>
+
+            <th class='l-align'>Модель: <a id='supply-model' class='popup_button'>$models[$model]</a>
+                <div id='popup_supply-model' class='popup_menu'>
+                    <ul>";
+                        $get_area = ($area > -1) ? "&area=$area" : "";
+
+                        foreach($models as $id=>$name) {
+                            if ($count[$id] > 0 or $id == 0)
+                                if ($model == $id)
+                                    $page .= "<li class='current'>$name</li>";
+                                else
+                                    $page .= "<li><a href='/supply/?model=$id$getarea'>$name</a></li>";
+                            $page .= ( $id == 0 ) ? "<hr>" : "";
+                        };
+                        $page .= "
+                    </ul>
+                </div>";
+                if (!(isset($model))) $model = 0;
+                $page .= "<input type='hidden' name='model' value='$model'>
+            </th>
+
+            <th>Полных</th>
+            <th title='Количество установленных картриджей'>В работе</th>
+
+            <th class='l-align'>Территория:	<a id='supply-area' class='popup_button'>$areas[$area]</a>
+                <div id='popup_supply-area' class='popup_menu'>
+                    <ul>";
+                        $get_model = ($model > -1) ? "model=$model" : "";
+
+                        foreach($areas as $id=>$name) {
+                            if ($id != 2) {     //Скрывать пункт Все Территории
+                                if ($area == $id)
+                                    $page .= "<li class='current'>$name</li>";
+                                else
+                                    $page .= "<li><a href='/supply/?$get_model&area=$id'>$name</a></li>";
+                            };
+                            $page .= ( $id == 0 ) ? "<hr>" : "";
+                        };
+
+                        $page .= "
+                    </ul>
+                </div>";
+                if (!(isset($area))) $area = 0;
+                $page .= "<input type='hidden' name='area' value='$area_id'>
+            </th>
+            <th>Комментарий</th>
+            <input type='hidden' name='stage' value='list'/>
+        </form>
+    </tr>
+
+    <!-- end filter -->
+
+    <!--<div class='buttons'><div class='actions'><a href='edit.html' class='button'>Добавить...</a></div></div>-->
+    ";

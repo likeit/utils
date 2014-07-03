@@ -1,0 +1,81 @@
+<!--<form enctype="multipart/form-data" method="post">-->
+<form method="get">
+  <table border="1">
+  <tr align="center">
+    <td colspan="2"><strong>Заявка на регистрацию нового сотрудника</strong></td>
+  </tr>
+  <tr>
+    <td>ФИО<span style="color:red">*</span>:</td>
+    <td width="300"><input name="fio" type="text" size="50" maxlength="255" value="<?php echo $fio; ?>" /></td>
+  </tr>
+  <tr>
+    <td>Дата рождения:</td>
+    <td width="300">
+      <input name="birth_day" type="text" size="3" maxlength="2" value="<?php echo $birth_day; ?>" />&nbsp;.
+      <input name="birth_month" type="text" size="3" maxlength="2" value="<?php echo $birth_month; ?>" />&nbsp;.
+      <input name="birth_year" type="text" size="5" maxlength="4" value="<?php echo $birth_year; ?>" />&nbsp;(24.05.1985)
+      </td>
+  </tr>
+  <tr>
+    <td>Должность<span style="color:red">*</span>:</td>
+    <td width="300">
+	<select name="position_id">
+          <?php
+		for ($i=1; $i <= count($positions); $i++)
+		{ if ($position_id == $positions[$i]['id']) { $selected = ' selected="selected" '; } else $selected = ' ';
+		 echo '<option'.$selected.'value="'.$positions[$i]['id'].'">'.$positions[$i]['name'].'</option>';
+		};
+	  ?>
+    </select>
+	</td>
+  </tr>
+  <tr>
+    <td>Территория:</td>
+    <td width="300">
+	<select name="territory_id">
+	  <?php
+		for ($i=1; $i <= count($territory); $i++)
+		{ if ($territory_id == $territory[$i]['id']) { $selected = ' selected="selected" '; } else $selected = ' ';
+		  echo '<option'.$selected.'value="'.$territory[$i]['id'].'">'.$territory[$i]['name'].'</option>';
+		};
+	  ?>
+    </select>
+	</td>
+  </tr>
+  <tr>
+    <td>Организация:</td>
+    <td width="300">
+	<select name="organisation_id">
+	  <?php
+		for ($i=1; $i <= count($organisations); $i++)
+		{ if ($territory_id == $organisations[$i]['id']) { $selected = ' selected="selected" '; } else $selected = ' ';
+		  echo '<option'.$selected.'value="'.$organisations[$i]['id'].'">'.$organisations[$i]['name'].'</option>';
+		};
+	  ?>
+    </select>
+	</td>
+  </tr>
+  <tr>
+    <td>Номер пропуска:</td>
+	<td width="300"><input name="propusk_number" type="text" size="10" maxlength="10" value="<?php echo $propusk_number; ?>" />&nbsp; (0001234567)</td>
+  </tr>
+  <tr>
+    <td>Upload photo:</td>
+    <td><input name="is_upload_photo" type="checkbox" />&nbsp;(Checked - Yes)</td>
+  </tr>
+  <tr>
+	<td colspan="2">
+    <fieldset>
+	<legend>Комментарий:</legend>
+    <textarea name="comment" cols="50" rows="8"><?php echo $comment; ?></textarea>
+    </fieldset>
+    </td>
+  </tr>
+  <tr align="center">
+    <td colspan="2"><input type="submit" name="stage" value="Reset" /> &nbsp; <input type="submit" name="stage" value="Get" /></td>
+  </tr>
+</table>
+</form>
+</td>
+</tr>
+</table>

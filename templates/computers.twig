@@ -1,0 +1,137 @@
+{% extends 'utils.twig' %}
+{% spaceless %}
+
+{% set get_area = (area_filter > 0) ? "area=" ~ area_filter ~ "&" %}
+{% set get_page = (page > 0) ? "page=" ~ page ~ "&" %}
+{% set get_ob   = (ob   > 0) ? "ob="   ~ ob ~ "&" %}
+{% set get_od   = (od   > 0) ? "od="   ~ od ~ "&" %}
+{% set get_for_sorting_links = get_area ~ get_r %}
+{% set get_for_pagenumbers   = get_area ~ get_r ~ get_ob ~ get_od %}
+
+{% set pagename = "Компьютеры" %}
+
+{% block search %}{% endblock search %}
+{% block content %}
+<div class='data_container'>
+    <div class="area-filter">
+        <ul class="area-filter__list">
+            {% for id,area in areas %}
+                <li class="area-filter__item {{ area_filter == id  or (area_filter == "" and id == 2) ? "current" }}">
+                    {% if area_filter == id  or (area_filter == "" and id == 2) %}
+                        <span>{{ area }}</span>
+                    {% else %}
+                        <a class="area-filter__button" href="/computers/?area={{ id }}">{{ area }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <table class='computers__list list'>
+        <col class='col-computer'/>
+        <col class='col-user'/>
+        <col class='col-ip'/>
+        <tr>
+            {% set col,class,order_desc='name','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}{% set class = class ~ ' desc' %}
+                {% else %}{% set order_desc = '&od=1' %}{% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/computers/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Статус'>
+                    <span>Компьютер</span>
+                </a>
+            </th>
+            {% set col,class,order_desc='user','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}{% set class = class ~ ' desc' %}
+                {% else %}{% set order_desc = '&od=1' %}{% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/computers/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Статус'>
+                    <span>Пользователь</span>
+                </a>
+            </th>
+            {% set col,class,order_desc='ip','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}{% set class = class ~ ' desc' %}
+                {% else %}{% set order_desc = '&od=1' %}{% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/computers/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Статус'>
+                    <span>IP</span>
+                </a>
+            </th>
+        </tr>
+
+        {% for comp in computers %}
+            <tr>
+                <td>
+                    <a id="computer_{{ comp.id }}" class="computer popup_button computer-{{ computers_online[comp.id] ? "on" : "off"}}line">
+                        {{ comp.name }}
+                    </a>
+                    <div id="popup_computer_{{ comp.id }}" class="popup_menu">
+                        <ul>
+                            <li>
+                                <a href="/computers/ping.php?host={{ comp.ip }}" download="ping_{{ comp.name }}.cmd">ping</a>
+                            </li>
+                            <li>
+                                <a href="/computers/psloggedon.php?host={{ comp.ip }}" download="psloggedon_{{ comp.name }}.cmd">psloggedon</a>
+                            </li>
+                            <li>
+                                <a href="/computers/terminal.php?host={{ comp.ip }}" download="terminal_{{ comp.name }}.cmd">terminal</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    {% if users_online[comp.id] %}
+                        {% set user = users[users_online[comp.id].id] %}
+                        <a class="user__online" data-id="{{ user.uid }}">
+                        {{ user.lastname ~ " " ~ user.firstname }}
+                        </a>
+                    {% else %}
+                        <span class="user-unknown">---</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if comp.ip %}
+                        {% set ip = comp.ip | split('.') %}
+                        <span class='ip-prefix'>{{ ip.0 }}.{{ ip.1 }}.</span>{{ ip.2 }}.{{ ip.3 }}
+                    {% else %}
+                        <span class='ip-unknown'>?</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class='table-footer'>
+        <span class='statusbar'>Компьютеров: {{ count }}</span>
+        {% if pages > 1 %}
+            <div class="pagenumbers">
+                {% for i in 0..pages-1 %}
+                    {% if (i == 1 and page>3) or (i == page + 3 and pages - page > 4) %}
+                        <span class = 'pagespace'>…</span>
+                    {% else %}
+                        {% if (i == 0) or ((i > page - 3) and (i < page + 4)) or (i == pages-1) %}
+                            {% if page==i %}
+                                <span class="page current">{{ i + 1 }}</span>
+                            {% else %}
+                                <a class="page" href='/computers/?{{ get_for_pagenumbers }}page={{ i }}'>{{ i + 1 }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% endspaceless %}

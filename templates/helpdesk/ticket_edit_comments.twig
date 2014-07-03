@@ -1,0 +1,51 @@
+    {% set comments_count = ticket.comments | length %}
+    {% set autocomments_count = 0 %}
+    {% for comment in ticket.comments %}
+        {% if comment.autocomment == true %}
+            {% set autocomments_count = autocomments_count + 1  %}
+        {% endif %}
+    {% endfor %}
+
+    {% if comments_count>0 %}
+        {#{% if comments_count == 1 %}#}
+            {#<label class="comments">Комментарий:</label>#}
+        {#{% else %}#}
+            <span class="cutter pic"></span>
+            <label class="comments cutter">Комментарии</label>
+
+            <span class='cut_info'> ({{ comments_count - autocomments_count }}):</span>
+            <a class="button_show_autocomments">
+                <span class="showed_autocomments_text">скрыть историю изменений</span>
+                <span class="hidden_autocomments_text">показать всю историю</span>
+            </a>
+            <span class='cut_info'> ({{ autocomments_count }})</span>
+
+            <div class="cut">
+                {% for id,comment in ticket.comments %}
+                    {% if id < comments_count %}
+                        <div class="{{ comment.creator == admin_id ? "my" }} comment {{ comment.autocomment ? comment.autocomment | replace({'1':'autocomment'}) }}">
+                            <label class="commentator">{{ users[comment.creator].lastname }} {{ users[comment.creator].firstname }} </label>
+                            <label class="comment_date"> {{ comment.date | date("d.m.Y H:i") }}</label>
+                            <p class='comment_text'>{{ comment.text | nl2br }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {#{% endif %}#}
+        {#<div class="{{ ticket.comments[comments_count - 1].creator == admin_id ? "my" }}#}
+            {#comment {{ ticket.comments[comments_count - 1].autocomment | replace({'1':'autocomment'}) }} last_comment">#}
+            {#<label class="commentator">{{ users[ticket.comments[comments_count - 1].creator].lastname }} {{ users[ticket.comments[comments_count - 1].creator].firstname }} </label>#}
+                {#<label class="comment_date">{{ ticket.comments[comments_count - 1].date | date("d.m.Y H:i")}} </label>#}
+            {#<p class='comment_text'>{{ ticket.comments[comments_count - 1].text | nl2br }}</p>#}
+        {#</div>#}
+    {% else %}
+        <label class="comments">Комментариев нет. </label>
+    {% endif %}
+    <div class="new_comment_buttons {% if not ticket.comments %} first_comment {% endif %}">
+        <a id="add_comment" onclick="addComment()">добавить</a>
+    </div>
+    <div id='new_comment_block'>
+        <textarea id='new_comment_text' name='comment'></textarea>
+        <a id='cancel_add_comment' onclick="cancelAddComment()">отменить</a>&nbsp;
+        <a id='save_comment' onclick="saveComment(0)">сохранить</a>
+    </div>

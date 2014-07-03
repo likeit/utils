@@ -1,0 +1,80 @@
+<script type="text/javascript">
+	var GeneralShow = true;
+</script>
+
+<style type="text/css">
+#General label { 
+	width: 105px; 
+}
+</style>
+
+<h3 onclick="$('#General').animate({'margin-top': (GeneralShow)*(-($('#General').height()))}, AnimateSpeed); GeneralShow=(!GeneralShow)" style="border-top-width: 1px;"><img src="/img/status_3.gif"/>&nbsp;Личные&nbsp;данные</h3>
+
+<form id="fGeneral" name="fGeneral" method="Post">
+
+	<div id="General" class="module">
+		<div class="parameters">
+		<table width=100%>
+			<tr>
+				<td>
+					<div style="text-align: center">
+						<?php
+							if (isset($photoname)) echo '<a target="_blank" href="photos/'.$photoname.'"><img id="Photo" src="photos/mini_'.$photoname.'"></a></img>';
+								else echo '<img id="Photo" src="img/anonymous.png"></a></img>';
+						?>
+					</div>
+				</td>
+				
+				<td>
+					<label id="fio1_label" class="req">Фамилия:</label>
+					<input name="fio1" class="fio req" value="<?php echo $fio1; ?>" required/><br>
+					
+					<label id="fio2_label" class="req">Имя:</label>
+					<input name="fio2" class="fio req" value="<?php echo $fio2; ?>" required/><br>
+					
+					<label id="fio3_label" class="req">Отчество:</label>
+					<input name="fio3" class="fio req" value="<?php echo $fio3; ?>" required/><br>
+					
+					<label>Дата рождения:</label>						
+					<input name="date" id="date" title="Формат даты: 01.12.2012" value="<?php if ($date > 0) echo $date; ?>"/><br>
+					
+					<label id="area_id_label" class="req">Территория:</label>
+					<select name="area_id" class="req" id="area_id" title="Территория">
+					<?php 	foreach($areas as $id => $name) {
+							$selected = ($area_id == $id) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$id.'">'.$name.'</option>';  
+														}; ?>
+					</select><br>
+					
+					<label id="gild_id_label" class="req">Организация:</label>
+					<select name="gild_id" class="req">
+						<?php	foreach($gilds as $id => $name) {
+								$selected = ($gild_id == $id) ? ' selected="selected" ' : ' ';
+								echo '<option'.$selected.'value="'.$id.'">'.$name.'</option>';  
+																}; ?>
+					</select><br>
+					
+					<label id="post_id_label" class="req">Должность:</label>
+					<select name="post_id" class="req">
+					<?php	foreach($posts as $id => $name) {
+							$selected = ($post_id == $id) ? ' selected="selected" ' : ' ';
+							echo '<option'.$selected.'value="'.$id.'">'.$name.'</option>';  
+														}; ?>
+					</select><br>
+			
+					<label>Номер пропуска:</label>
+					<input name="mod_skud_number" id="skud_number" />	
+				</td>
+				<td>
+					<label class="comment">Комментарий:</label><br>
+					<textarea name="comment" class="comment" title="Комментарий" placeholder="Комментарий"><?php echo $comment; ?></textarea>
+				</td>
+			</tr>
+		</table>
+		</div>
+		
+		<div class="save-block">
+			<a href="javascript:document.fGeneral.submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить блок</a>
+		</div>
+	</div>
+</form>

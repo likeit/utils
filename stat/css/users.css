@@ -1,0 +1,249 @@
+﻿* {
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+}
+
+.users.list .col-status	    { width: 22px;	}
+.users.list .col-fio	    { width: 200px;	}
+.users.list .col-login	    { width: 120px;	}
+.users.list .col-pass	    { width: 90px;	}
+.users.list .col-area	    { width: 25%;	}
+.users.list .col-dept	    { width: 30%;	}
+.users.list .col-post	    { width: 35%;	}
+.users.list .col-modiff     { width: 150px;	}
+
+.list .hidden			    { color: transparent;}
+.list tr:hover .hidden,
+.list tr.selected .hidden   { color: #000;}
+.list tr.selected           { background: hsl(210, 100%, 95%);  }
+.list tr.selected:hover     { background: #d8ffd8;  }
+
+.users.list th.status	    { padding: 5px 0 0 6px; }
+
+#user-status {
+    border: none;
+    opacity: .8;
+}
+
+#user-status:hover {
+    opacity:  1;
+}
+
+#popup_user-status a img,
+.user-status img {
+    top: 3px;
+    position: relative;
+}
+
+.dept_title {
+    text-align: center;
+    padding: 5px 0 3px;
+}
+
+.dept_title hr {
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+
+.dept_title span {
+    background: #eee;
+    color: #000;
+    padding: 3px 7px;
+    border-radius: 3px;
+}
+
+.edit_form .buttons {
+    clear: both;
+}
+
+.buttons .right {
+    float:right;
+}
+
+
+.preview_user_card {
+    background: #fff;
+    border-radius: 7px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 10px hsla(0, 0%,0%,.5), 1px 1px 1px hsla(0, 0%,0%,.1);
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 13px;
+}
+
+#user-photo-delete {
+    background: hsla(0,0%,25%,.75);
+
+    height: 20px;
+    width: 20px;
+
+    margin-left: -20px;
+
+    float: right;
+    display: none;
+
+    border-bottom-left-radius: 10px;
+}
+
+#user-photo-change {
+    background: hsla(0,0%,25%,.75);
+    height: 30px;
+    width: 100%;
+    margin-top: -30px;
+    position: relative;
+    clear: both;
+    float: left;
+    line-height: 30px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    display: none;
+    opacity: 0;
+}
+#user-photo-make {
+    background: hsla(0,0%,25%,.75);
+    height: 30px;
+    width: 100%;
+    margin-top: -60px;
+    position: relative;
+    clear: both;
+    float: left;
+    line-height: 30px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    display: none;
+    opacity: 0;
+}
+
+#user-photo-wrapper:hover #user-photo-change,
+#user-photo-wrapper:hover #user-photo-make,
+#user-photo-wrapper:hover #user-photo-delete {
+    opacity: 1;
+    display: block;
+}
+
+#user-photo {
+    display: block;
+    float: left;
+}
+
+#user-photo-wrapper {
+    display: inline-block;
+}
+#user-photo-wrapper>img {
+    background: white;
+    padding: 6px;
+    max-width: 256px;
+    border: 1px solid;
+    border-color:   hsl(0,0%,80%)
+                    hsl(0,0%,70%)
+                    hsl(0,0%,70%)
+                    hsl(0,0%,80%);
+    box-shadow: 1px 1px 6px 0 hsla(0,0%,0%,0.2);
+}
+
+#user-photo-wrapper a           { opacity: .8; color: #fff; text-decoration: none ; display: inline-block; width: 100%; }
+#user-photo-wrapper a:hover     { opacity: 1; }
+
+#user-photo-wrapper input {
+    visibility: hidden;
+    position: absolute;
+}
+
+tr.status_4 a { color: #aaa; }
+tr.status_4,
+.list tr.status_4:hover .hidden,
+.list tr.status_4.selected .hidden   { color: #bbb;}
+
+.edit_form {
+    width: 950px;
+}
+
+.edit_form .form_block {
+    border-collapse: inherit;
+}
+
+.edit_form .user-details { float: left; width: 700px; }
+
+.edit_form .user-flags   { float: right; width: 230px; }
+.user-documents   { 
+	float: right; 
+	width: 230px; 
+	margin-top: 10px;
+	font-family: Arial;
+	font-size: 12px;
+}
+.edit_form .user-flag  {
+    position: relative;
+    top: 2px;
+    margin-right: 2px;
+}
+
+.edit_form input,
+.edit_form select,
+.edit_form textarea {
+    background: hsl(0,0%,100%);
+}
+
+.edit_form td {
+    padding: 2px;
+}
+
+.edit_form label {
+    color: #888;
+    font-size: .75rem;
+}
+.edit_form .header_label {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    border-bottom: 1px solid hsl(0, 0%, 85%);
+    padding-bottom: 2px;
+    margin-bottom: 5px;
+}
+
+.edit_form input[type=text],
+.edit_form input[type=email],
+.edit_form input[type=date],
+.edit_form input[type=tel],
+.edit_form select {
+    width: 170px;
+    height: 26px;
+    border-radius: 3px;
+}
+
+.edit_form select {
+    width: 210px;
+}
+
+#user_firstname,
+#user_lastname,
+#user_middlename {
+    /*font-weight: bold;*/
+    /*font-size: 1rem;*/
+}
+
+
+.user_info {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+embed {
+    background: rgba(255,192,128,0.1);
+}
+
+.form_block.header {
+    width: 950px;
+    margin: 0 auto 20px;
+}
+
+.header img {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+}
+
+.edit_form .preview_form .input-send-to {
+    width: 550px;
+}

@@ -1,0 +1,168 @@
+//<?php
+
+if ($stage == "mod") {
+    $header = "<div class='form_block header'><h3><img src='/stat/img/new_status_$status_id.png'>&nbsp;$lastname $firstname $middlename</h3></div>";
+    $next_stage = "upd";
+    if (isset($photo)) {
+        $photo = "./photos/$photo";
+        $add_photo_text = "Заменить";
+        $delete_photo_button   = "<div id='user-photo-delete'>
+                                    <a title='Удалить'><img src='/stat/img/small_close.gif' alt='x'/></a>
+                                  </div>";
+    } else {
+        $photo = "./photos/no_photo.jpg";
+        $add_photo_text = "Загрузить";
+    }
+
+    $photo_block = "
+            <div id='user-photo-wrapper'>
+                <img id='user-photo' src='$photo'/>
+                $delete_photo_button
+                <div id='user-photo-change'>
+                    <a title='Загрузить новое фото' id='add_photo_button'>$add_photo_text</a>
+                    <form name='upload_photo' id='upload_photo' method='post' enctype='multipart/form-data'>
+                        <input type='file' id='photo_file' accept='image/jpeg'/>
+                    </form>
+                </div>
+            </div>
+    ";
+
+} else {
+    $header = "<div class='form_block header'><h3>Добавление нового пользователя</h3></div>";
+    $next_stage = "add";
+}
+
+$empty_option = "<option value='0' class='gray'>-- Не указано --</option>";
+
+$label_area         = "<label for='user_area'>Территория</label>";
+$label_birthday     = "<label for='user_birthday'>Дата рожд</label>";
+$label_comment      = "<label for='user_comment'>Дополнительная информация</label>";
+$label_dept         = "<label for='user_dept'>Отдел</label>";
+$label_email        = "<label for='user_email'>E-mail</label>";
+$label_firstname    = "<label for='user_firstname'>Имя</label>";
+$label_lastname     = "<label for='user_lastname'>Фамилия</label>";
+$label_login        = "<label for='user_login'>Логин</label>";
+$label_login_ae     = "<label for='user_login_ae'>Логин&nbsp;AE</label>";
+$label_middlename   = "<label for='user_middlename'>Отчество</label>";
+$label_organization = "<label for='user_organization'>Организация</label>";
+$label_pass         = "<label for='user_pass'>Пароль</label>";
+$label_phone        = "<label for='user_phone'>Телефон</label>";
+$label_post         = "<label for='user_post'>Должность</label>";
+$label_skud         = "<label for='user_skud'>Пропуск</label>";
+$label_status       = "<label for='user_status'>Статус</label>";
+
+$birthday = (strlen($birthday) > 0 and $birthday != "0000-00-00") ? date("d.m.Y", strtotime($birthday)) : "";
+$input_birthday     = "<input id='user_birthday'   name='birthday'   type='text'  tabindex='4'  value='$birthday' class='birthday-mask'>";
+$input_email        = "<input id='user_email'      name='email'      type='email' tabindex='16' value='$email'>";
+$input_firstname    = "<input id='user_firstname'  name='firstname'  type='text'  tabindex='2'  value='$firstname'>";
+$input_lastname     = "<input id='user_lastname'   name='lastname'   type='text'  tabindex='1'  value='$lastname'>";
+$input_login        = "<input id='user_login'      name='login'      type='text'  tabindex='10' value='$login'>";
+$input_login_ae     = "<input id='user_login_ae'   name='login_ae'   type='text'  tabindex='12' value='$login_ae'>";
+$input_middlename   = "<input id='user_middlename' name='middlename' type='text'  tabindex='3'  value='$middlename'>";
+$input_pass         = "<input id='user_pass'       name='pass'       type='text'  tabindex='14' value='$pass'>";
+$input_phone        = "<input id='user_phone'      name='phone'      type='tel'   tabindex='18' value='$phone' class='phone-mask'>";
+$input_skud         = "<input id='user_skud'       name='skud'       type='text'  tabindex='20' value='$skud' class='skud-mask'>";
+
+$select_area        = "<select id='user_area' name='area_id' tabindex='6' >$empty_option".build_options($areas, $area_id)."</select>";
+$select_dept        = "<select id='user_dept' name='dept_id' tabindex='7' >$empty_option".build_options($depts, $dept_id)."</select>";
+$select_organization= "<select id='user_organization' name='organization_id' tabindex='9' >$empty_option".build_options($organizations, $organization_id)."</select>";
+if (isset($sibling_posts)) $posts = $sibling_posts;             // По возможности, использовать список "соседних" должностей
+$select_post        = "<select id='user_post' name='post_id' tabindex='8' >$empty_option".build_options($posts, $post_id)."</select>";
+$select_status      = "<select id='user_status' name='status_id' tabindex='5' >".build_options($statuses, $status_id)."</select>\n            ";
+
+
+$gen_email          = "<a href='javascript: genUserEmail()'   id='user_email_gen'    class='button small' tabindex='17'>↻</a>";
+$gen_login          = "<a href='javascript: genUserLogin()'   id='user_login_gen'    class='button small' tabindex='11'>↻</a>";
+$gen_login_ae       = "<a href='javascript: genUserLoginAE()' id='user_login_ae_gen' class='button small' tabindex='13'>↻</a>";
+$gen_pass           = "<a href='javascript: genUserPass()'    id='user_pass_gen'     class='button small' tabindex='15'>↻</a>";
+$gen_phone          = "<a href='javascript: genUserTel()'     id='user_phone_gen'    class='button small' tabindex='19'>↻</a>";
+
+$textarea_comment   = "<textarea id='user_comment' name='comment' tabindex='21'>$comment</textarea>";
+
+$btn_send_mail = "<a href='/users/?stage=preview&uid=$uid' class='button blue'>Карточка пользователя</a>";
+
+if ($stage == 'mod') {
+    foreach ($users_flags as $id => $name) {
+        $user_flag_checked = (in_array($id,$user_flags)) ? "checked" : "";
+        $user_flags_li .= "<li><label><input type='checkbox' $user_flag_checked value='$id' class='user-flag'>$name</label></li>";
+    }
+    $user_flags_block = "<div class='form_block user-flags'>
+    <label class='header_label'>Учётки</label>
+    <ul>
+        $user_flags_li
+    </ul>
+    <input id='input-flags' name='flags' type='hidden' value='$flags'/>
+</div>";
+}
+
+$buttons = "<div class='buttons'>$btn_back
+        <div class='right'>$btn_send_mail $btn_save_user</div>
+        <input type='hidden' name='stage' value='$next_stage'>
+    </div>";
+
+$page .= "$header
+<div class='edit_form'>
+<form method='post' name='edit_user'>
+    <table class='form_block user-details'>
+        <tr>
+            <td rowspan='8' colspan=2 style='text-align: center'>$photo_block</td>
+            <td>$label_lastname</td><td>$input_lastname</td>
+
+        </tr>
+
+        <tr><td>$label_firstname</td><td>$input_firstname</td></tr>
+
+        <tr><td>$label_middlename</td><td>$input_middlename</td></tr>
+
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+
+        <tr><td>$label_birthday</td><td>$input_birthday</td></tr>
+
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+
+        <tr>
+            <td>$label_status</td><td>$select_status</td>
+            <td>$label_login</td><td>$input_login$gen_login</td>
+        </tr>
+
+        <tr>
+            <td colspan='2'>&nbsp;</td>
+            <td>$label_login_ae</td><td>$input_login_ae$gen_login_ae</td>
+        </tr>
+
+        <tr>
+            <td>$label_area</td><td>$select_area</td>
+            <td>$label_pass</td><td>$input_pass$gen_pass</td>
+        </tr>
+
+        <tr>
+            <td>$label_dept</td><td>$select_dept</td>
+            <td>$label_email</td><td>$input_email$gen_email</td>
+        </tr>
+
+        <tr>
+             <td>$label_post</td><td>$select_post</td>
+            <td>$label_phone</td><td>$input_phone$gen_phone</td>
+        </tr>
+
+        <tr>
+            <td>$label_organization</td><td>$select_organization</td>
+            <td>$label_skud</td><td>$input_skud</td>
+        </tr>
+
+        <tr><td colspan='4'>&nbsp;</td></tr>
+
+        <tr>
+            <td colspan='4'>$label_comment<br>$textarea_comment</td>
+        </tr>
+
+    </table>
+
+    $user_flags_block
+
+    $buttons
+</form>
+</div>
+";

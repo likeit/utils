@@ -1,0 +1,31 @@
+div.overlay {
+	position: fixed;
+	background: rgba(0,0,0, .5);
+	margin: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	visibility: hidden;
+    z-index: 5;
+}
+
+div.modal {
+	background: #eee;
+	background:  -webkit-linear-gradient(top, #eee, #d8d8d8);
+	background:     -moz-linear-gradient(top, #eee, #d8d8d8);
+	background:      -ms-linear-gradient(top, #eee, #d8d8d8);
+	background:       -o-linear-gradient(top, #eee, #d8d8d8);
+	border: 3px solid #a8a8a8;
+	border-radius: 10px;
+	box-shadow: 2px 2px 10px hsla(0, 0%, 0%, .5);
+	font-size: .8em;
+	margin: 0 auto;
+	padding: 15px 20px;
+	position: relative;
+	text-align: center;
+	top: 100px;
+}
+
+#edit_printer_window  div.modal {	width: 465px; }
+#edit_supply_window  div.modal  {	width: 400px; }

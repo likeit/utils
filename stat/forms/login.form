@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="/stat/css/utils.css" rel="stylesheet" media="screen">
+    <link href="/stat/css/login.css" rel="stylesheet" media="screen">
+    <script src="/stat/js/jquery.min.js"></script>
+    <script src="/stat/js/utils.js"></script>
+    <title>Admin Utils: вход</title>
+</head>
+
+<body>
+
+<?php echo $msg ?>
+<br>
+<form method="post" name="auth" action="../../auth.php?stage=auth">
+    <div class="login">
+        <h3>Admin Utils: вход</h3>
+
+        <div class="blueline">
+            <div class="formline c-align">
+<!--                <label for="login">Логин:</label>-->
+                <input type="text" name="login" id="name" autofocus="autofocus" placeholder="Логин" value="demo">
+            </div>
+
+            <div class="formline c-align">
+<!--                <label for="pass">Пароль:</label>-->
+                <input type="password" name="pass" id="pass" onkeypress="submitOnEnter(event,'auth')" placeholder="Пароль" value="demo">
+            </div>
+            <div class="formline">
+                <label>
+                    <input type="checkbox" name="remember" id="remember" checked onkeypress="submitOnEnter(event,'auth')">
+                    запомнить меня
+                </label>
+            </div>
+        </div>
+
+        <div class="buttons">
+<!--            <input type="submit" value="ololo"/>-->
+            <a class="button blue" href="javascript: document.auth.submit()">Войти</a>
+            <input type="hidden" name=stage value=auth  />
+        </div>
+    </div>
+
+</form>
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+    (function (d, w, c) {
+      (w[c] = w[c] || []).push(function() {
+        try {
+          w.yaCounter25448312 = new Ya.Metrika({id:25448312,
+            webvisor:true,
+            clickmap:true,
+            accurateTrackBounce:true,
+            ut:"noindex"});
+        } catch(e) { }
+      });
+
+      var n = d.getElementsByTagName("script")[0],
+          s = d.createElement("script"),
+          f = function () { n.parentNode.insertBefore(s, n); };
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+      if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+      } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  </script>
+  <noscript><div><img src="//mc.yandex.ru/watch/25448312?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+</body>
+
+</html>

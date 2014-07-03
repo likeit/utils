@@ -1,0 +1,29 @@
+{% extends '/utils.twig' %}
+{% block search %}{% endblock search %}
+{% block personal %}
+    {% include 'helpdesk/client/help.twig' %}
+{% endblock personal %}
+{% block navigation %}
+    <menu class='nav-menu'>
+        <li class='section active'><a href='/helpdesk/client' title='На главную'>Новая заявка</a></li>
+        <li class='section'><a href="/helpdesk/client?list">Мои заявки</a></li>
+        {% if is_boss %}
+            <li class='section {{ (section == "dept_list") ? "active" }}'><a href="/helpdesk/client?dept_list">Заявки моих сотрудников</a></li>
+        {% endif %}
+    </menu>
+{% endblock navigation %}
+{% block content %}
+<div class="greeting">
+    Здравствуйте, <span class="greeting_username">{{ firstname }}{{ is_boss ? " " ~ middlename }}</span>!
+</div>
+
+<div class="new_ticket_form">
+    <form>
+        <input name="title" class="new_ticket_title" placeholder="Укажите тему" required="required">
+        <textarea name="description" class="new_ticket_body" placeholder="Опишите проблему" required="required"></textarea>
+        <div class="buttons">
+            <input type="submit" class="button green" name="save" value="Отправить заявку в IT-отдел">
+        </div>
+    </form>
+</div>
+{% endblock content %}

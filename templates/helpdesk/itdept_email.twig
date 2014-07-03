@@ -1,0 +1,80 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; ">
+    <style type="text/css">
+        body { font-family: Arial, sans-serif; font-size: 13px; }
+        a { text-decoration: none }
+        a:hover { opacity: 1 }
+        img { border: 0 }
+        #rating { position: relative; padding: 22px 15px 4px; display: inline; top: 2px;}
+        #rating a { padding: 0 2px }
+        #rating:hover {background: #f4f4f4 }
+        #s1 {opacity: 0.5; cursor: pointer}
+        #s1:hover {opacity: 1}
+        #s1:hover #s2:not(:hover) a {opacity: 0.5}
+        #s2:hover #s3:not(:hover) a {opacity: 0.5}
+        #s3:hover #s4:not(:hover) a,
+        #s3:focus #s4:not(:focus) a,
+        #s3:active #s4:not(:active) a {
+            opacity: 0.5
+        }
+        #s4:hover #s5:not(:hover) a {opacity: 0.5}
+
+        .title {display: none}
+        a:hover .title,
+        a:focus .title,
+        a:active .title {
+            display: inline;
+            position: absolute;
+            top: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #333333;
+        }
+    </style>
+    <title>
+    </title>
+</head>
+
+<body>
+    <h2>
+        <a href="http://utils.avto-sale.local/helpdesk/?stage=edit&id={{ id }}">#{{ id }}. {{ title }}</a>
+    </h2>
+        <p>Пользователь {{ creator }} открыл заявку #{{ id }}. "{{ title }}"<!--
+         -->{% if not description is empty %}:</p>
+                <p style="
+                    font-style: italic;
+                    margin-left: 10px;
+                    border-left: 2px solid #ddd;
+                    padding-left:
+                    5px
+                ">{{ description | nl2br }}{% else %}.{% endif %}
+        </p>
+        <div class="buttons" style="padding: 5px 10px 10px;">
+            <a class="button" style="
+                background: hsl(90, 65%, 45%);
+                border: 1px solid;
+                border-color: hsl(90,60%,60%) hsl(90,60%,48%) hsl(90,60%,44%) hsl(90,60%,46%);
+                color: #fff;
+                font-family: Segoe UI, sans-serif;
+                font-size: .8rem;
+                padding: 4px 15px 6px;
+                text-decoration: none;
+            " href="http://utils.avto-sale.local/helpdesk/?stage=accept&id={{ id }}">Принять</a>
+        </div>
+    <hr style="border: 1px solid; border-color: #ddd #fff #fff #fff; margin-right: 20px">
+
+    <p style="font-size:0.8em; color:Gray;">
+        Это сообщение отправлено автоматически из
+        <a href="http://utils.avto-sale.local/helpdesk">Задачника</a>,
+        пожалуйста не отвечайте на него.
+    </p>
+</body>
+
+</html>
+{% endspaceless %}

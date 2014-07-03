@@ -1,0 +1,4 @@
+			/*if (($date_expl[2] < 1900) or ($date_expl[2] > date("Y"))) { $msg = 'Год рождения не верен!'; $msg_class='failed'; $birthday = '00000000'; }
+			elseif (($date_expl[1] < 1) or ($date_expl[1] > 12)) { $msg = 'Месяц рождения не верен!'; $msg_class='failed'; $birthday = '00000000'; }
+				elseif (($date_expl[0] < 1) or ($date_expl[0] > 31)) { $msg = 'День рождения не верен!'; $msg_class='failed'; $birthday = '00000000'; }
+					else $birthday = $date_expl[2].$date_expl[1].$date_expl[0];*/	

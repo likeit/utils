@@ -1,0 +1,49 @@
+		<div class="content tab2">
+							
+			<div id=addphoto">
+				<!--<img src="img/x.png" id="Close" onclick="document.getElementById('addphoto').style.display='none';document.getElementById('shadow').style.display='none'"/>-->
+				<div class="photo" style="float: none; cursor: default">
+					<div class="photoimg">
+					<?php
+					if (isset($photoname)) echo '<a target="_blank" href="photos/'.$photoname.'"><img src="photos/mini_'.$photoname.'"></a></img>';
+						else echo '<img src="img/anonymous.png"></a></img>';
+					?>
+					</div>
+					<div class="helper"></div>
+				</div>
+				<div>
+					<form enctype="multipart/form-data" method="post">
+						<input name="userfile" type="file"/>&nbsp;<input type="submit" value="Загрузить"/>
+						<input type="hidden" name="stage" value="save_photo" />
+					</form>
+				</div>
+			</div>
+			
+			<form name="form2" style="width: 500px; height: 313px;" method="post">
+				<label>Имя пользователя в АД:</label>
+				<input name="mod_ad_login" style="width: 100px" value="<?php echo $mod_ad_login; ?>"/><br>
+				
+				<label>Имя пользователя в AExpres:</label>
+				<input name="mod_aexpres_login" style="width: 100px" value="<?php echo $mod_aexpres_login; ?>"/><br>
+				
+				<label>Пароль:</label>
+				<input name="mod_ad_passwd" style="width: 200px" value="<?php echo $mod_ad_passwd; ?>"/><br>
+				
+				<label>e-mail:</label>
+				<input name="mod_post_email" style="width: 200px" value="<?php echo $mod_mail_login; ?>"/><br>
+				
+				<label>Номер пропуска СКУД:</label>
+				<input name="mod_skud_number" id="skud_number" style="width: 100px"/><br>
+				
+				<input type="hidden" name="user_id" value="<?php echo $user_id; ?>" />
+				<input type="hidden" name="stage" value="2" />
+			</form>
+
+			<div class="buttons">
+				<a href="index.php" class="button prev">Вернуться</a>
+				<!--<a href="javascript:document.form2.reset()"  class="button reset">Сброс</a>-->
+				<a href="javascript:document.form2.submit()" class="button save" id="savebutton">Сохранить</a>
+			</div>
+			
+		</div>
+

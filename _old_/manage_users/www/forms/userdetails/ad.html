@@ -1,0 +1,39 @@
+<script type="text/javascript">
+	var ADShow = true;
+</script>
+
+<h3 onclick="$('#AD').animate({'margin-top': (ADShow)*(-($('#AD').height()))}, AnimateSpeed); ADShow=(!ADShow)"><img src="/img/status_1.gif"/>&nbsp;Active Directory</h3>
+<form id="fAD" name="fAD" method="Post">
+
+	<div id="AD" class="module">
+		<table width=100%>
+			<tr>
+				<td style="text-align: right; width: 33%">
+					<label>Учётка в АД:</label>
+					<input name="mod_ad_login" style="width: 100px" value="<?php echo $mod_ad_login; ?>"/><br>
+
+					<label>Имя пользователя в АД:</label>
+					<input name="mod_ad_login" style="width: 100px" value="<?php echo $mod_ad_login; ?>"/><br>
+					
+					<label>Имя пользователя в AExpres:</label>
+					<input name="mod_aexpres_login" style="width: 100px" value="<?php echo $mod_aexpres_login; ?>"/><br>
+					
+					<label>Пароль:</label>
+					<input name="mod_ad_passwd" style="width: 200px" value="<?php echo $mod_ad_passwd; ?>"/><br>
+				</td>
+
+				<td style="text-align: right; width: 33%">
+					&nbsp;
+				</td>
+
+				<td style="text-align: right; width: 33%">
+					&nbsp;
+				</td>
+			</tr>
+		</table>
+	
+		<div class="save-block">
+			<a href="javascript:document.fAD.submit()" class="button save <?php echo $button_save; ?>" id=savebutton>Сохранить блок</a>
+		</div>
+	</div>
+</form>

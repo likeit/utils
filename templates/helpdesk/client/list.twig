@@ -1,0 +1,203 @@
+{% extends '/utils.twig' %}
+{#{% block search %}{% endblock search %}#}
+{% block personal %}
+    {% include 'helpdesk/client/help.twig' %}
+{% endblock personal %}
+{% block navigation %}
+    <menu class='nav-menu'>
+        <li class='section'><a href='/helpdesk/client' title='На главную'>Новая заявка</a></li>
+        <li class='section {{ (section == "list") ? "active" }}'><a href="/helpdesk/client?list">Мои заявки</a></li>
+        {% if is_boss %}
+            <li class='section {{ (section == "dept_list") ? "active" }}'><a href="/helpdesk/client?dept_list">Заявки моих сотрудников</a></li>
+        {% endif %}
+    </menu>
+
+    {% for url,section in sections %}
+        <li class="section {{ url==dir ? "active" }}" data-section_name="{{ url }}">
+            <a href="/{{ url }}/">{{ section }}</a>
+            {% if notify[url] %}
+                <span class="notify_number">{{ notify[url] }}</span>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endblock navigation %}
+
+{% block search %}
+    <div class='searchbox'>
+        <form action='/helpdesk/client/?list' method="get" name='search_form'>
+            <input type='search' name='search' placeholder='Поиск заявок' autofocus='autofocus'>
+            <input type='submit' id='search_button' value=""/>
+            <input type="hidden" name="stage" value="search">
+        </form>
+    </div>
+    {% if changedSearchText %}
+        <div class='search_hint'>Показаны результаты поиска по запросу "{{ search }}". Возможно, вы имели ввиду
+            <a href='/helpdesk/client?search&ob=changed&od=1&search={{ changedSearchText }}'>{{ changedSearchText }}</a>?
+        </div>
+    {% endif %}
+{% endblock search %}
+
+{% block content %}
+    <div class='data for_clients'>
+
+    <table class='tickets list'>
+        <col class='col-status'/>
+        <col class='col-title'/>
+        <col class='col-creator'/>
+        <col class='col-performers'/>
+        <col class='col-created'/>
+        <col class='col-changed'/>
+        <col class='col-deadline'/>
+
+        <tr>
+            {% set col,class,order_desc='status','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Статус'>
+                    <img src='/stat/img/helpdesk/status_{{ class | replace({' ':'_'}) | default ('0') }}.png'>
+                </a>
+            </th>
+
+            {% set col,class,order_desc='title','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Тема</span></a>
+            </th>
+
+            {% set col,class,order_desc='creator','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Постановщик</span></a>
+            </th>
+
+            {% set col,class,order_desc='performers','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Исполнители</span></a>
+            </th>
+
+            {% set col,class,order_desc='created','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Создана</span></a>
+            </th>
+
+            {% set col,class,order_desc='changed','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Изменена</span></a>
+            </th>
+
+            {% set col,class,order_desc='deadline','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/client/?{{ section }}&{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title="Планируемая дата следующих действий по заявке"><span>Срок</span></a>
+            </th>
+        </tr>
+        {% if tickets %}
+            {% for id,ticket in tickets %}
+                <tr class='status_{{ ticket.status }} ' data-id='{{ ticket.id }}'>
+                    <td><img src='/stat/img/helpdesk/status_{{ ticket.status }}.png'     title='{{ statuses[ticket.status]     }}'></td>
+                    <td class='title'>
+                        <a href='./?ticket={{ ticket.id }}'><span class="ticket_id">{{ ticket.id }}.</span>{{ ticket.title }}</a>
+                    </td>
+                    <td class='creator'>{{ users[ticket.creator].lastname }} {{ users[ticket.creator].firstname [:1] }}.</td>
+                    <td>
+                        {% for p in ticket.performers %}
+                            {{ p.lastname }} {{ p.firstname [:1] }}.{{ (loop.index != ticket.performers | length )? ', ' }}
+                        {% endfor %}
+                    </td>
+
+                    {% for column in ['created', 'changed', 'deadline'] %}
+                        {% set y,m,d,y0,m0,d0 = ticket[column] | date("Y"), ticket[column] | date("m"), ticket[column] | date("j"), "now" | date("Y"), "now" | date("m"), "now" | date("j") %}
+                        {% if ticket[column] > 0 %}
+                            {% if y == y0 %}
+                                {% if m == m0 %}
+                                    {% if d == d0 %}
+                                        {% set td = (column == 'created' or column == 'changed') ? ticket[column] | date("G:i") : "сегодня" %}
+                                        {% set title = (column == 'created' or column == 'changed') ? "Сегодня в " ~ ticket[column] | date("G:i") : "" %}
+                                    {% elseif d == d0 - 1 %}
+                                        {% set td = "вчера" %}
+                                        {% set title = (column == 'created' or column == 'changed') ? "Вчера в " ~ ticket[column] | date("G:i") : "" %}
+                                    {% elseif d == d0 + 1 %}
+                                        {% set td = "завтра" %}
+                                    {% else %}
+                                        {% set td = d ~ " " ~ MONTHS_G[m - 1][:3] %}
+                                        {% set title = (column == 'created' or column == 'changed') ? d ~ " " ~ MONTHS_G[m - 1] ~ " в " ~ (ticket[column] | date("G:i")) %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set td = d ~ " " ~ MONTHS_G[m - 1][:3] %}
+                                    {% set title = (column == 'created' or column == 'changed') ? d ~ " " ~ MONTHS_G[m - 1] ~ " в " ~ (ticket[column] | date("G:i")) %}
+                                {% endif %}
+                            {% else %}
+                                {% set td = d ~ "." ~ m ~ "." ~ y %}
+                                {% set title = d ~ " " ~ MONTHS_G[m - 1] ~ y ~ "г. в " ~ ticket[column] | date("G:i") %}
+                            {% endif %}
+                        {% else %}
+                            {% set td = "—" %}
+                        {% endif %}
+                        <td class="c-align {{ column }} {{ y==y0 and m==m0 and d==d0 ? "today" }}" title="{{ title }}" >
+                            {{ td }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan='10' class='not_found'>Заявок не найдено.</td>
+            </tr>
+        {% endif %}
+
+    </table>
+    <div class='table-footer'>
+        <span class='statusbar'>Заявок: {{ row_count }}</span>
+        {% if pages>1 %}
+            <div class="pagenumbers">
+                {% for i in 0..pages-1 %}
+                    {% if (i == 1 and page>3) or (i == page + 3 and pages - page > 4) %}
+                        <span class = 'pagespace'>…</span>
+                    {% else %}
+                        {% if (i == 0) or ((i > page - 3) and (i < page + 4)) or (i == pages-1) %}
+
+                            {% if page==i %}
+                                <span class="page current">{{ i + 1 }}</span>
+                            {% else %}
+                                <a class="page" href='/helpdesk/client/?{{ section }}&{{ get_for_pagenumbers }}page={{ i }}'>{{ i + 1 }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class='buttons'>
+        <div class='right'>
+            <a class='button green' href='./?stage=new'>Новая заявка</a>
+        </div>
+    </div>
+
+    </div>
+
+{% endblock content %}

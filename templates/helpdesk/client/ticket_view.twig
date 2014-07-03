@@ -1,0 +1,110 @@
+{% extends '/utils.twig' %}
+{% spaceless %}
+
+{% block search %}{% endblock search %}
+
+    {% set header='#' ~ ticket.id ~ '. ' ~ ticket.title %}
+    {#{% set pagename=header ~ " :: Задачник" %}#}
+
+{% block navigation %}
+    <menu class='nav-menu'>
+        <li class='section'><a href='/helpdesk/client' title='На главную'>Новая заявка</a></li>
+        <li class='section'><a href="/helpdesk/client?list">Мои заявки</a></li>
+        <li class='section active'><a href="/helpdesk/client?ticket={{ ticket.id }}">Заявка #{{ ticket.id }}</a></li>
+    </menu>
+{% endblock navigation %}
+
+{% block personal %}
+    {% include 'helpdesk/client/help.twig' %}
+{% endblock personal %}
+
+{% block msg %}
+    {% if not msg_type is empty %}
+        <div class="msg {{ msg_type }}" style="display: block">{{ msg }}</div>
+    {% endif %}
+{% endblock msg %}
+
+{% block content %}
+    <div class="edit_form">
+        <form id="ticket_edit" name="ticket_edit" action="/helpdesk/?stage=save&id={{ ticket.id }}" method="post">
+        <input type="hidden" id="ticket_id" value="{{ ticket.id }}"/>
+        <div class="form_block header">
+            <h3 class="title">
+                #&nbsp;{{ ticket.id }}.&nbsp;{{ ticket.title }}
+                {% if ticket.status in [4,6] %}
+                    <span class='ticket_edit_rating'>
+                        {% if uid == ticket.creator %}
+                            {% for i in 1..5 %}
+                                <a href="javascript: rateTicket('{{ ticket.id}}', '{{ i }}')"
+                                   title="Оценить работу по заявке на &quot;{{ i }}&quot;">
+                                    <img src="/stat/img/helpdesk/rate_{{ ticket.rate>=i?1:0 }}.png">
+                                </a>
+                            {% endfor %}
+                        {% else  %}
+                            {% for i in 1..5 %}
+                                <img src="/stat/img/helpdesk/rate_{{ ticket.rate>=i?1:0 }}.png">
+                            {% endfor %}
+                        {% endif %}
+                    </span>
+                {% endif %}
+                <span class="status_name">
+                    <img src='/stat/img/helpdesk/status_{{ ticket.status }}.png'>&nbsp;{{ statuses[ticket.status].name }}
+                </span>
+            </h3>
+        </div>
+        <div class="form_block details">
+            <div class="description">
+                <textarea name="description" placeholder="Описание" disabled="disabled">{{ ticket.description }}</textarea>
+            </div>
+        </div>
+
+        <div class="form_block members">
+            <div class="ticket_creator_and_changer">
+                <label>Создал:</label>
+                <span class="ticket_creator">{{ users[ticket.creator].lastname}} {{ users[ticket.creator].firstname}}</span>
+                <span class="ticket_created">{{ ticket.created | date("d.m.Y \\в H:i") }}</span>
+                <br>
+                {% if ticket.changer %}
+                    <label>Изменил:</label>
+                    <span class="ticket_changer">{{ admins[ticket.changer].lastname}} {{ admins[ticket.changer].firstname}}</span>
+                    <span class="ticket_changed">{{ ticket.changed  | date("d.m.Y \\в H:i") }}</span>
+                {% endif %}
+
+            </div>
+
+            <div class="contractor">
+                <label>Ответственный:</label><br>
+                <span class="ticket_contractor">{{ admins[ticket.contractor].lastname }} {{ admins[ticket.contractor].firstname }}</span>
+            </div>
+            <br>
+            <div class="performers">
+                <label>Исполнители:</label><br>
+                {% for admin in admins %}
+                    {% for performer in ticket.performers %}
+                        {% if (performer==admin.uid) %}
+                            <span class="ticket_performer">{{ admins[performer].lastname }} {{ admins[performer].firstname }}</span>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                {#</ul>#}
+            </div>
+
+        </div>
+
+        <div id="comments_block" class="form_block cut_block cutted">
+            {% include 'helpdesk/client/ticket_view_comments.twig'%}
+        </div>
+
+        </form>
+        <div class="spacer"></div>
+        <div class="buttons">
+            <a class="button red" id="back"  href="javascript: window.history.back()">« Вернуться</a>
+            {#<div class="right">#}
+                {#<a class="button green" id="save_ticket">Сохранить</a>#}
+                {#<a class="button green" id="save_ticket_and_back">Сохранить и вернуться</a>#}
+            {#</div>#}
+        </div>
+    </div>
+
+{% endblock content %}
+{% endspaceless %}

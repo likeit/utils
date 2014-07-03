@@ -1,0 +1,197 @@
+{% extends '/utils.twig' %}
+{% block search %}
+{% endblock search %}
+
+    {% if performer %}
+        {% set report_text = admins[performer].lastname ~ " " ~
+                             admins[performer].firstname[:1] ~ "." ~
+                             admins[performer].middlename[:1] ~ "." ~
+                             ": отчёт за " %}
+    {% else %}
+        {% set report_text = "Отчёт за " %}
+    {% endif %}
+
+{% set pagename = report_text ~ MONTHS[month] ~ " — Задачник"  %}
+
+{% set get_m = (month is not empty) ? "m=" ~ month ~ "&" %}
+{% set get_y = (year is not empty) ? "y=" ~ year ~ "&" %}
+{% set get_p = (performer is not empty) ? "performer=" ~ performer ~ "&" %}
+
+{% block content %}
+<div class="report_container">
+    <h3>Отчёт по заявкам
+        {% if performer %}
+            сотрудника
+            <a id="performer" class="popup_button">
+                {{ admins[performer].lastname }}
+                {{ admins[performer].firstname }}
+            </a>
+        {% else %}
+            <a id="performer" class="popup_button">IT-отдела</a>
+        {% endif %}
+        за
+        <a id="date" class="popup_button">{{ (month > 0 ? MONTHS[month]) ~ " " ~ year }}</a> год{{ month > 0 ? "а" }}
+    </h3>
+
+    <div id="popup_performer" class="popup_menu">
+        <ul>
+            {% if not performer %}
+                <li class="current">Все сотрудники</li>
+            {% else %}
+                <li>
+                    <a href="/helpdesk/reports?{{ get_m ~ get_y }}">Все сотрудники</a>
+                </li>
+            {% endif %}
+
+            <hr>
+
+            {% for id,admin in admins %}
+                {% if id == performer %}
+                    <li class="current {{ admin.status_id in [3,4,6] ? "freeman" }}">{{ admin.lastname }} {{ admin.firstname }}</li>
+                {% else %}
+                    <li class="{{ admin.status_id in [3,4,6] ? "freeman" }}">
+                        <a href="/helpdesk/reports?{{ get_m ~ get_y }}performer={{ id }}">{{ admin.lastname }} {{ admin.firstname }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="popup_date" class="popup_menu">
+        <ul>
+            {% for m in 0..12 %}
+                {% if m==month %}
+                    <li class="current">{{ MONTHS[m] | capitalize }}</li>
+                {% else %}
+                    <li>
+                        <a href="/helpdesk/reports?{{ get_p ~ get_y }}m={{ m }}">{{ MONTHS[m] | capitalize }}</a>
+                    </li>
+                {% endif %}
+                {% if (m % 3)==2 or m==0 %}
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <ul>
+            {% for y in 2013..2014 %}
+                {% if y==year %}
+                    <li class="current">{{ y }}</li>
+                {% else %}
+                    <li>
+                        <a href="/helpdesk/reports?{{ get_p }}y={{ y }}&{{ get_m }}">{{ y }}</a>
+                    </li>
+                {% endif %}
+                {#{{ loop.index < loop|length ? "<hr>" }}#}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <table class="report">
+        <col class="col-fio">
+        <col class="col-counts">
+        <col class="col-counts">
+        <col class="col-counts">
+        <col class="col-counts">
+        <col class="col-rating">
+        <tr>
+            {#<th>Сотрудник</th>#}
+            {#<th>Открыто</th>#}
+            {#<th>В ожидании</th>#}
+            {#<th>Отложено</th>#}
+            {#<th>Отменено</th>#}
+            {#<th>Выполнено</th>#}
+            {#<th>Закрыто</th>#}
+            {#<th title="(выполнено + закрыто) / (открыто - в ожидании - отложенно - отменено)">%</th>#}
+            {#<th>Качество</th>#}
+            <th>Сотрудник</th>
+            <th><img src="/stat/img/helpdesk/status_1.png"></th>
+            <th><img src="/stat/img/helpdesk/status_5.png"></th>
+            <th><img src="/stat/img/helpdesk/status_7.png"></th>
+            <th><img src="/stat/img/helpdesk/status_8.png"></th>
+            <th><img src="/stat/img/helpdesk/status_4.png"></th>
+            <th><img src="/stat/img/helpdesk/status_6.png"></th>
+            <th title="                 (выполнено + закрыто) /
+(открыто - в ожидании - отложено - отменено)"><b>%</b></th>
+            <th><img src="/stat/img/helpdesk/rate_3_min.png"></th>
+        </tr>
+
+        {% for admin in performers %}
+            <tr class='{{ admin.uid == uid ? "me" }}'>
+                <td class="fio">
+                    {{ admin.lastname }} {{ admin.firstname }}
+                </td>
+                <td class="datanumbers">
+                    <a class="opened" href="/helpdesk?filter={{ admin.filter_opened }}"
+                            title="Всего открыто за {{ MONTHS[month] }}">{{ admin.opened }}</a>
+                </td>
+                <td class="datanumbers">
+                    <a class="waited" href="/helpdesk?filter={{ admin.filter_waited }}"
+                       title="В ожидании из числа открытых за {{ MONTHS[month] }}">{{ admin.waited }}</a>
+                </td>
+                <td class="datanumbers">
+                    <a class="paused" href="/helpdesk?filter={{ admin.filter_paused }}"
+                       title="Отложено из числа открытых за {{ MONTHS[month] }}">{{ admin.paused }}</a>
+                </td>
+
+                <td class="datanumbers">
+                    <a class="cancelled" href="/helpdesk?filter={{ admin.filter_cancelled }}"
+                       title="Отменено из числа открытых за {{ MONTHS[month] }}">{{ admin.cancelled }}</a>
+                </td>
+
+                <td class="datanumbers">
+                    <a class="done" href="/helpdesk?filter={{ admin.filter_done }}"
+                       title="Выполнено за {{ MONTHS[month] }} из числа открых за {{ MONTHS[month] }}">{{ admin.done }}</a>
+                </td>
+
+                <td class="datanumbers">
+                    <a class="closed" href="/helpdesk?filter={{ admin.filter_closed }}"
+                       title="Закрыто за {{ MONTHS[month] }} из числа открых за {{ MONTHS[month] }}">{{ admin.closed }}</a>
+                </td>
+
+                <td class="datanumbers">
+                    {% set r = admin.result %}
+
+                    {% if admin.uid == 177 %}
+                        {% set class="gray" %}
+                    {% elseif r > 0.95 %}
+                        {% set class="verygood" %}
+                    {% elseif r > 0.85 %}
+                        {% set class="good" %}
+                    {% elseif r > 0.75 %}
+                        {% set class="notbad" %}
+                    {% else %}
+                        {% set class="bad" %}
+                    {% endif %}
+                    <span class="percentage {{ class }}"
+                          title="({{ admin.done }} выполненных + {{ admin.closed }} закрытых) /
+({{ admin.opened }} открытых - {{ admin.waited }} в ожидании - {{ admin.paused }} отложенных - {{ admin.cancelled }} отмененных) = {{ admin.percentage_r2 }}%"
+                            >{{ admin.percentage_r1 }} %</span>
+                </td>
+                <td class="datanumbers rating">
+                    {% if admin.uid == 177 %}
+                        {% set class="gray" %}
+                    {% elseif admin.rating["rating"] > 95 %}
+                        {% set class="verygood" %}
+                    {% elseif admin.rating["rating"] > 85 %}
+                        {% set class="good" %}
+                    {% elseif admin.rating["rating"] > 75 %}
+                        {% set class="notbad" %}
+                    {% else %}
+                        {% set class="bad" %}
+                    {% endif %}
+
+                    {% if admin.rating["count"] > 0 %}
+                        <span class="rating {{ class }}" title="{{ admin.rating["rating"] }}%, {{ admin.rating["count"]}} оценок">
+                            {{ admin.rating["rating_r"]  ~ " %" }}
+                        </span>
+                    {% else %}
+                        <span class="rating not_rated">нет оценок</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+{% endblock content %}

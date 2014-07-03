@@ -1,0 +1,51 @@
+{% spaceless %}
+<label>Личные фильтры</label>
+    <ul class='personal_filter_list'>
+        {% for f in filters %}
+            {% if (f.user==admin_id) %}
+                <li>
+                    {% if f.id == admins[admin_id].settings.helpdesk_def_filter %}
+                        <span class="selected_by_default">●</span>
+                    {% else %}
+                        <a title="Выбрать по умолчанию" class="select_by_default" onclick="setDefaultFilter('{{ f.id }}')">●</a>
+                    {% endif %}
+                    {% if (f.filter == filter) %}
+                        <span class="current_filter">{{ f.name }}</span>
+                    {% else %}
+                        <a href=/helpdesk?{{ get_r }}filter={{ f.filter }} class="filter_name">{{ f.name }}</a>
+                    {% endif %}<!--
+                    -->&nbsp;<span class="tickets_count">{{ f.count }}</span>
+                    <a onclick='deleteFilter({{ f.id }})' class='delete_filter'>
+                        <img src='/stat/img/small_close_black.gif' title='удалить'>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <label>Общие фильтры</label>
+    <ul class='global_filter_list'>
+        {% for f in filters %}
+            {% if (f.user==0) %}
+                <li>
+                    {% if f.id == admins[admin_id].settings.helpdesk_def_filter %}
+                        <span class="selected_by_default">●</span>
+                    {% else %}
+                        <a title="Выбрать по умолчанию" class="select_by_default" onclick="setDefaultFilter('{{ f.id }}')">●</a>
+                    {% endif %}
+                    {% if f.filter!=filter %}
+                        <a href=/helpdesk?{{ get_r }}filter={{ f.filter }} class="filter_name">{{ f.name }}</a>
+                    {% else %}
+                        <span class="current_filter">{{ f.name }}</span>
+                    {% endif %}<!--
+                    -->&nbsp;<span class="tickets_count">{{ f.count }}</span>
+                    <a onclick='deleteFilter({{ f.id }})' class='delete_filter'>
+                        <img src='/stat/img/small_close_black.gif' title='удалить'>
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endspaceless %}

@@ -1,0 +1,27 @@
+//<?php
+
+$page .= "<div class='form_block header'><h3>Карточка пользователя: $preview_res[lastname] $preview_res[firstname] ($post)</h3></div>
+
+<div class='edit_form'>
+    <form method='post' class='preview_form' name='send_usercard'>
+        <input type='hidden' name='stage' value='Send'>
+
+        <div class='preview_user_card'>$user_card \n\n $users_smtp_sign</div><br><br>
+
+        <div class='form_block'>
+            <label>Получатели:</label>
+            <input type='text' name='users_smtp_to' value='$CNF[users_smtp_to]' class='input-send-to'>
+        </div>
+
+        <div class='buttons'>
+
+            $btn_home
+
+            <div class='right'>
+                <a class='button blue' href='javascript: document.send_usercard.submit()'>Отправить</a>
+            </div>
+
+        </div>
+
+    </form>
+</div>";

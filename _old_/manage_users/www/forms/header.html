@@ -1,0 +1,44 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Система учета сотрудников в ИТ-системе</title>
+	<meta http-equiv="Content-Type" content="text/html; charset='utf-8'" />
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/userlist.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/css/edituser.css" type="text/css" media="screen" />
+	<!--Google Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+	<!--/Google Fonts -->
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" src="/js/users.js"></script>
+	<script type="text/javascript">
+		$(function(){$("#date").mask("99.99.9999");});
+		$(function(){$("#skud_number").mask("9999999999");});
+		$(function(){$("#surv_number").mask("9999999999");});
+	</script>
+</head>
+
+<body>
+	<div id="top">
+		<ul class="lmenu">
+			<li class="active"><a href="/">Users</a>
+			<li><a href="http://wiki.avto-sale.local">Wiki</a>
+			<li><a href="http://cartridge.avto-sale.local">Cartridges</a>
+		</ul>
+		<ul class="rmenu">
+			<li><a href="cabinet.php" title="Личный кабинет"><?php echo $admin_fio.' ('.$cfg_permissions[$permission_id].')'; ?></a>
+			<li class="exit">[<a href="logout.php">Выход</a>]
+		</ul>
+	</div>
+	<br>
+	
+	<div id="pagename"><?php echo $page_name; ?></div>
+	
+	<div id="notify" class=<?php echo '"'.$msg_class.'">'.$msg ?>&nbsp;</div>
+	

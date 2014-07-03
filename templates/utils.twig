@@ -1,0 +1,107 @@
+{% spaceless %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <link href='/stat/jquery-ui/jquery-ui-1.10.3.custom.min.css' rel='stylesheet' media='screen'>
+    <link href='/stat/css/utils.css' rel='stylesheet' media='screen'>
+    <link href='/stat/css/print.css' rel='stylesheet' media='print'>
+    <link href='/stat/css/{{ dir }}.css' rel='stylesheet' media='screen'>
+    {% if not nojs %}<script src='/stat/js/{{ dir }}.js'></script>{% endif %}
+    <link rel='shortcut icon' href='favicon.png' type='image/png'>
+    <title>{{ pagename }}</title>
+</head>
+
+<body>
+
+    <div class='wrapper'>
+        {% block msg %}
+            {% if (msg | length) > 0 %}
+                <div class="msg {{ msg_type }}">{{ msg | nl2br }}</div>
+            {% endif %}
+        {% endblock msg %}
+
+        <div class='top-panel'>
+            <div class="logo">
+                <a href="/"><img src="/stat/img/avto-start_logo.png"/></a>
+            </div>
+            {% block navigation %}
+                <menu class='nav-menu'>
+                    {% for url,section in sections %}
+                        <li class="section {{ url==dir ? "active" }}" data-section_name="{{ url }}">
+                            {% if notify[url] %}
+                                <span class="notify_number">{{ notify[url] }}</span>
+                            {% endif %}
+                            <a href="/{{ url }}/">{{ section }}</a>
+                        </li>
+                    {% endfor %}
+                </menu>
+            {% endblock navigation %}
+
+            {% block personal %}
+                <div class='personal'>
+                    <span class="data">{{ admin_fio }}</span>
+                    [<a href='/auth.php?stage=exit'>Выход</a>]
+                </div>
+            {% endblock personal %}
+
+        </div>
+
+        {% block search %}
+            <div class='searchbox'>
+                <form>
+                    <input type='search' name='find_text' placeholder='Поиск' autofocus='autofocus'>
+                    <input type='submit' id='search_button' value=''/>
+                    <input type='hidden' name='stage' value='find'>
+                </form>
+            </div>
+        {% endblock search %}
+
+        <div class='content'>
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+    </div>
+
+    {#<footer>#}
+        {#Created by <a>kobi</a> and <a>megadozz</a> in 2013.#}
+    {#</footer>#}
+    <script src='/stat/js/jquery.min.js'></script>
+    <script src='/stat/jquery-ui/jquery-ui-1.10.3.custom.min.js'></script>
+    <script src='/lib/jquery.autosize.min.js'></script>
+    <script src='/lib/jquery.inputmask.js'></script>
+    <script src='/lib/zclip/jquery.zclip.min.js'></script>
+    <script src='/stat/js/utils.js'></script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter25448312 = new Ya.Metrika({id:25448312,
+                        webvisor:true,
+                        clickmap:true,
+                        accurateTrackBounce:true,
+                        ut:"noindex"});
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="//mc.yandex.ru/watch/25448312?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</body>
+
+</html>
+{% endspaceless %}

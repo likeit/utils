@@ -1,0 +1,32 @@
+.ac_results {
+	padding: 0;
+	border: 1px solid black;
+	background-color: white;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	z-index: 99999;
+}
+
+.ac_results li {
+	margin: 0;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	font-family: 'Arial';
+	font-size: .9em;
+	line-height: 25px;
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_loading	{ background: white url('indicator.gif') right center no-repeat; }
+.ac_odd		{ background-color: #f6f6f6; }
+.ac_over	{ background-color: Highlight; color: HighlightText; }

@@ -1,0 +1,76 @@
+//<?php
+$page .= '
+<!-- begin filter -->
+	<table class="bills list">
+		<col class="col-number"/>
+		<col class="col-date"/>
+		<col class="col-buyer"/>
+		<col class="col-seller"/>
+		<col class="col-sum"/>
+		<col class="col-title"/>
+
+		<tr>
+			<form name="form" method="get">
+
+				<th>Номер</th>
+				<th>Дата</th>
+				<th class="l-align">Покупатель:
+					<a id="client" class="popup_button">';
+						$client_id == 0 ? $page .= 'Все' : $page .= $clients[$client_id];
+						$page .= '</a>
+						<div id="popup_client" class="popup_menu">
+						<ul>';
+							if ($client_id==0) {
+								$page .= '<li class="center current">Все</li><hr>';
+							} else {
+								$page .= '<li class="center"><a href="javascript: $(&quot;input[name=client_id]&quot;).val(0); document.form.submit()" class="popup_button">Все</a></li><hr>';
+							};
+
+							foreach($clients as $k=>$v) {
+								if ($client_id == $k) {
+									$page .= '<li class="current">'.$v.'</li>';
+								} else {
+									$page .= '<li><a href="javascript: $(&quot;input[name=client_id]&quot;).val('.$k.'); document.form.submit()">'.$v.'</a></li>';
+								};
+							};
+							$page .= '
+						</ul>
+					</div>';
+					if (!(isset($client_id))) $client_id=0;
+					$page .= '<input type="hidden" name="client_id" value="'.$client_id.'">
+				</th>
+
+				<th class="l-align">Поставщик:
+					<a id="seller" class="popup_button">';
+						$seller_id==0 ? $page .= 'Все' : $page .= $sellers[$seller_id];
+						$page .= '</a>
+							<div id="popup_seller" class="popup_menu"><ul>';
+							if ($seller_id==0) {
+								$page .= '<li class="center current">Все</li><hr>';
+							} else {
+								$page .= '<li class="center"><a href="javascript: $(&quot;input[name=seller_id]&quot;).val(0); document.form.submit()" class="popup_button">Все</a></li><hr>';
+							};
+
+							foreach($sellers as $k=>$v) {
+								if ($seller_id == $k) {
+									$page .= '<li class="current">'.$v.'</li>';
+								} else {
+									$page .= '<li><a href="javascript: $(&quot;input[name=seller_id]&quot;).val('.$k.'); document.form.submit()">'.$v.'</a></li>';
+								};
+							};
+							$page .= '
+						</ul>
+					</div>';
+					if (!(isset($seller_id))) $seller_id=0;
+					$page .= '<input type="hidden" name="seller_id" value="'.$seller_id.'">
+				</th>
+
+				<th>Сумма</th>
+				<th>Описание</th>
+
+				<input type="hidden" name="stage" value="list"/>
+			</form>
+
+		</tr>
+<!-- end filter -->
+';

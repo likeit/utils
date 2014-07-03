@@ -1,0 +1,35 @@
+    {% set commented=0 %}
+    {% for comment in ticket.comments %}
+        {% if comment.autocomment != 1 %}
+            {% set commented=1 %}
+            {#{{ comment.text }}#}
+        {% endif %}
+    {% endfor %}
+
+    {#{{ commented }}#}
+
+    {% if commented == 1 %}
+            <label class="comments">Комментарии:</label>
+
+            <div>
+                {% for id,comment in ticket.comments %}
+                    {% if comment.autocomment != 1 %}
+                        <div class="{{ comment.creator == admin_id or comment.creator == uid ? "my" }} comment">
+                            <label class="commentator">{{ users[comment.creator].lastname }} {{ users[comment.creator].firstname }} </label>
+                            <label class="comment_date"> {{ comment.date | date("d.m.Y. H:i") }}</label>
+                            <p class='comment_text'>{{ comment.text | nl2br }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+    {% else %}
+        <label class="comments">Комментариев нет. </label>
+    {% endif %}
+    <div class="new_comment_buttons {% if not commented %} first_comment {% endif %}">
+        <a id="add_comment" onclick="addComment()">добавить</a>
+    </div>
+    <div id='new_comment_block'>
+        <textarea id='new_comment_text'></textarea>
+        <a id='cancel_add_comment' onclick="cancelAddComment()">отменить</a>&nbsp;
+        <a id='save_comment' onclick="saveComment(1)">сохранить</a>
+    </div>

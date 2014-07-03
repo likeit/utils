@@ -1,0 +1,95 @@
+//<?php
+
+if ($stage == "mod") {
+    $page .= "<div class='form_block header'><h3>Редактирование картриджа</h3></div>";
+} else {
+    $page .= "<div class='form_block header'><h3>Добавление нового картриджа</h3></div>";
+    $use = $full = 0;
+    $selected_by_default = "selected='selected'";
+};
+
+$page .= "
+<div class='edit_form'>
+<form method='post' name='edit_supply'>
+    <table class='form_block'>
+        <col class='col-labels'>
+        <col class='col-inputs'>
+        <tr>
+            <td class='r-align'>
+                <label for='supply_area'>Территория</label>
+            </td>
+            <td>
+                <select id='supply_area' name='area'>
+                    <option value='0' disabled='disabled' $selected_by_default>-- Не указано --</option>";
+                        foreach($areas as $k=>$v) {
+                            if ($k != 2) {  //Не показывать пункт "Все территории"
+                                if ($area == $k) $sel = 'selected ';
+                                else $sel = '';
+                                $page .= "<option $sel value='$k'>$v</option>";
+                            };
+                        };
+                        $page .= "</select>
+            </td>
+
+            <td class='r-align'>
+                <label for='supply-model'>Модель</label>
+            </td>
+            <td>
+                <select id='supply-model' name='model'>
+                    <option value='0' disabled='disabled' $selected_by_default>-- Не указано --</option>";
+                        foreach($models as $k=>$v) {
+                            if ($model == $k) $sel = "selected ";
+                            else $sel = '';
+                            $page .= "<option $sel value='$k'>$v</option>";
+                       };
+                       $page .= "</select>
+            </td>
+        </tr>
+
+        <tr>
+            <td class='r-align'>
+                <label for='supply_use'>Установлено</label>
+            </td>
+            <td>
+                <input id='supply_use' name='use' type='number' value='$use'>
+            </td>
+
+            <td class='r-align'>
+                <label for='supply_full'>Полных</label>
+            </td>
+            <td>
+                <input id='supply_full' name='full' type='number' value='$full'>
+            </td>
+        </tr>
+
+        <tr>
+            <td  colspan='4' class='c-align'>
+                <br><label for='supply_comment'>Комментарий:</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan='4'>
+                <textarea id='supply_comment' name='comment'>$comment</textarea>
+            </td>
+        </tr>
+
+    </table>
+
+    <div class='buttons'>
+		$btn_back
+        <div class='right'>";
+
+        if ($stage == 'mod')
+        {
+        	$page .= "$btn_remove_supply $btn_save_supply
+        	    <input type='hidden' name='stage' value='upd'>
+			    </form>
+				<form method='post' name='del_supply'><input type='hidden' name='stage' value='del'></form>";
+		} else {
+			$page .= "$btn_save_supply<input type='hidden' name='stage' value='add'></form>";
+		};
+
+		$page .= "</div>
+                </div>
+            </div>";

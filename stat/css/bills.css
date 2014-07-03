@@ -1,0 +1,97 @@
+.bills.list .col-number	{	width: 130px;	}
+.bills.list .col-date	{	width: 90px;	}
+.bills.list .col-sum	{	width: 120px;	}
+
+.numchar,
+.prefix {
+	font-size: .75rem;
+    color: #aaa;
+}
+
+.quot {
+    color: #888;
+}
+
+.valchar {
+	color: #aaa;
+	font-size: .7rem;
+}
+
+#bill-number {
+	width: 80px;
+	height: 20px;
+	text-align: center;
+}
+
+#bill-date {
+    width: 80px;
+}
+
+.letter textarea {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: italic;
+	width: 98%;
+	height: 200px;
+	border: 1px solid;
+	border-color: #888 #ccc #ccc #888;
+	border-radius: 2px;
+	resize: none;
+	padding: 1%;
+	line-height: 2em;
+}
+
+#cell-bill-comment {
+    padding-left: 17px;
+}
+
+#bill-comment {
+	width: 475px;
+}
+
+#bill-summ {
+	width: 75px;
+	text-align: right;
+}
+
+#bill-seller,
+#bill-client {
+	width: 180px;
+}
+
+#bill-seller option{
+	color: black;
+	font-style: normal;
+}
+
+input[type=file] {
+	border: none;
+}
+
+#cell-bill-number { padding-left: 30px }
+#cell-bill-summ,
+#cell-bill-actions {
+	text-align: right;
+}
+
+#cell-bill-resp {
+	text-align: right;
+    font-size: .75rem;
+    vertical-align: top;
+}
+
+.form_block.header {
+    width: 600px;
+    margin: 0 auto 20px;
+    text-align: center;
+}
+.form_block.header h3 {
+    text-align: center;
+}
+
+.form_block {
+    border-collapse: inherit;
+}
+
+.edit_form td {
+    padding: 8px 5px;
+}

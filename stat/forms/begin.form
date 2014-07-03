@@ -1,0 +1,57 @@
+//<?php
+$this_url = (basename(__DIR__) == 'www') ? '' : basename(__DIR__);
+if (!isset($page_title)) $page_title = $TITLE[$this_url];
+
+$link_css = file_exists("../stat/css/$this_url.css") ? "\n    <link href='/stat/css/$this_url.css' rel='stylesheet' media='screen'>" : "";
+$script_js = file_exists("../stat/js/$this_url.js") ? "\n    <script src='/stat/js/$this_url.js'></script>" : "";
+$link_favicon = file_exists("favicon.png") ? "\n    <link rel='shortcut icon' href='favicon.png' type='image/png'>" : "";
+
+$page .= "<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <link href='/stat/jquery-ui/jquery-ui-1.10.3.custom.min.css' rel='stylesheet' media='screen'>
+    <link href='/stat/css/utils.css' rel='stylesheet' media='screen'>$link_css
+    <script src='/stat/js/jquery.min.js'></script>
+    <script src='/stat/jquery-ui/jquery-ui-1.10.3.custom.min.js'></script>
+    <script src='/lib/jquery.inputmask.js'></script>
+    <script src='/stat/js/utils.js'></script>$script_js$link_favicon
+    <title>$page_title</title>
+</head>
+
+<body>
+
+<div class='wrapper'>
+    <div class='top-panel'>
+            <div class='logo'>
+                <a href='/'><img src='/stat/img/avto-start_logo.png'/></a>
+            </div>
+
+        <menu class='nav-menu'>";
+foreach ($TITLE as $url => $title) {
+    if ($notifies[$url]) {
+        $notify  = "<span class=\"notify_number\">";
+        $notify .= $notifies[$url];
+        $notify .= "</span>";
+    } else $notify = "";
+    $active = ($url == $this_url) ? "active" : "";
+    $page .= "<li class='section $active' data-section_name='$url'><a href='/$url'>$title</a>$notify</li>";
+};
+$page .= "</menu>
+        <div class='personal'><span class='data'>$admin_fio</span>&nbsp;[<a href='/auth.php?stage=exit'>Выход</a>]</div>
+    </div>
+    <div class='msg $msg_class'>$msg</div>";
+
+if (!$hidesearch) $page .= "<div class='searchbox'>
+        <form>
+            <input type='search' name='find_text' placeholder='Поиск' autofocus='autofocus' value='$find_text'>
+            <input type='submit' id='search_button' value=''/>
+            <input type='hidden' name='stage' value='find'>
+        </form>
+    </div>";
+
+$page .= "<div class='content'>
+
+<!-- end begin -->
+";

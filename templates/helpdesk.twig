@@ -1,0 +1,449 @@
+{% extends '/utils.twig' %}
+{% spaceless %}
+{% if stage  %}{% set get_stage  = "stage="   ~ stage   ~ "&" %}{% endif %}
+{% if filter %}{% set get_filter = "filter="  ~ filter  ~ "&" %}{% endif %}
+{% if search %}{% set get_search = "search="  ~ search  ~ "&" %}{% endif %}
+{% if page   %}{% set get_page   = "page="    ~ page    ~ "&" %}{% endif %}
+{% if r      %}{% set get_r      = "r="       ~ r       ~ "&" %}{% endif %}
+{% if ob     %}{% set get_ob     = "ob="      ~ ob      ~ "&" %}{% endif %}
+{% if od     %}{% set get_od     = "od="      ~ od      ~ "&" %}{% endif %}
+{% set get_for_sorting_links = get_stage ~ get_filter ~ get_search ~ get_r %}
+{% set get_for_pagenumbers   = get_stage ~ get_filter ~ get_search ~ get_r ~ get_ob ~ get_od %}
+{% set get_for_list_view     = get_stage ~ get_filter ~ get_search ~ get_ob ~ get_od %}
+
+    {% for f in filters %}
+        {% if ((f.user==admin_id) or (f.user==0)) and (f.filter==filter) %}
+            {% set pagename =  f.name ~ " — Задачник" %}
+        {% endif %}
+    {% endfor %}
+    {% set pagename = (pagename != "helpdesk") ? pagename : "Пользовательский фильтр — Задачник"  %}
+
+
+{% block search %}
+    <div class='searchbox'>
+        <form action='/helpdesk/' method="get" name='search_form'>
+            <input type='search' name='search' placeholder='Поиск заявок' autofocus='autofocus'>
+            <input type='submit' id='search_button' value=""/>
+            <input type="hidden" name="stage" value="search">
+        </form>
+    </div>
+    {% if changedSearchText %}
+        <div class='search_hint'>Показаны результаты поиска по запросу "{{ search }}". Возможно, вы имели ввиду
+                <a href='/helpdesk/?stage=search&ob=changed&od=1&search={{ changedSearchText }}'>{{ changedSearchText }}</a>?
+        </div>
+    {% endif %}
+{% endblock search %}
+
+{% block content %}
+
+<div class='data_container'>
+    <div class='list_view_buttons'>
+        {% for rows in [10,20,50,100,250] %}
+            {% if rows==r %}
+                <span>{{ rows }}</span>
+            {% else %}
+                <a href='/helpdesk?{{ get_for_list_view }}r={{ rows }}'>{{ rows }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if admin_id==164 %}
+            <span class="block_button_show_timeline">
+                <a class="button_show_timeline">+</a>
+            </span>
+        {% endif %}
+    </div>
+    <table class='tickets list'>
+        <col class='col-status'/>
+        <col class='col-weight'/>
+        <col class='col-title'/>
+        <col class='col-area'/>
+        <col class='col-creator'/>
+        <col class='col-performers'/>
+        <col class='col-created'/>
+        <col class='col-changed'/>
+        <col class='col-deadline'/>
+        <col class='col-rate'/>
+
+        <tr>
+            {% set col,class,order_desc='status','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Статус'>
+                    <img class='icon' src='/stat/img/helpdesk/status_{{ class | replace({' ':'_'}) | default ('0') }}.png'>
+                </a>
+            </th>
+
+            {% set col,class,order_desc='weight','','&od=1' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if not od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Вес'>
+                    <img class='icon' src='/stat/img/helpdesk/type_{{ class | replace({' ':'_'}) | default ('0') }}.png'>
+                </a>
+            </th>
+
+            {% set col,class,order_desc='title','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Тема</span></a>
+            </th>
+
+            {% set col,class,order_desc='area','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}
+                    {% set class = class ~ ' desc' %}
+                {% else %}
+                    {% set order_desc = '&od=1' %}
+                {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Территория</span></a>
+            </th>
+
+            {% set col,class,order_desc='creator','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Постановщик</span></a>
+            </th>
+
+            {% set col,class,order_desc='performers','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Исполнители</span></a>
+            </th>
+
+            {% set col,class,order_desc='created','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Создана</span></a>
+            </th>
+
+            {% set col,class,order_desc='changed','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}'><span>Изменена</span></a>
+            </th>
+
+            {% set col,class,order_desc='deadline','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title="Планируемая дата следующих действий по заявке"><span>Срок</span></a>
+            </th>
+
+            {% set col,class,order_desc='rate','','' %}
+            {% if ob==col %}
+                {% set class = 'ordered' %}
+                {% if od==1 %}                     {% set class = class ~ ' desc' %}                 {% else %}                     {% set order_desc = '&od=1' %}                 {% endif %}
+            {% endif %}
+            <th class="{{ col }} {{ class }} sort">
+                <a href='/helpdesk/?{{ get_for_sorting_links }}ob={{ col }}{{ order_desc }}' title='Оценка'>
+                    <img src='/stat/img/helpdesk/rate_{{ class | replace({' ':'_'}) | default ('0') }}_min.png'>
+                </a>
+            </th>
+        </tr>
+    {% if tickets %}
+        {% for id,ticket in tickets %}
+
+            {% set unassigned,burning = '','' %}
+
+            {% if not (ticket.performers | join(', ')) %}
+                {% set unassigned = 'unassigned' %}
+            {% endif %}
+            {% if ((ticket.deadline > 0 ) and ( date(ticket.deadline) <= date("now")) and (ticket.status in [1,2,3,5,7])) %}
+                {% set burning = 'burning' %}
+            {% endif %}
+
+            <tr class='status_{{ ticket.status }} {{ unassigned }} {{ burning }}' data-id='{{ id }}'>
+                <td>
+                    <a id="ticket-status_{{ id }}" class="popup_button noborder">
+                        <img class='icon' src='/stat/img/helpdesk/status_{{ ticket.status }}.png' title='{{ statuses[ticket.status].name }}'>
+                    </a>
+                    <div id="popup_ticket-status_{{ id }}" class="popup_menu">
+                        <ul>
+                            {% for status_id,status in statuses %}
+                                {% if status_id == ticket.status %}
+                                    <li class="current">
+                                        <img class="icon" src='/stat/img/helpdesk/status_{{ status_id }}.png'>&nbsp;{{ status.name }}</li>
+                                {% else %}
+                                    <li>
+                                        <a href="javascript: changeTicketStatus('{{ id }}','{{ status_id }}')">
+                                            <img class="icon" src='/stat/img/helpdesk/status_{{ status_id }}.png'>&nbsp;{{ status.name }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </td>
+                <td class='weight'><img class='icon' src='/stat/img/helpdesk/weight_{{ ticket.weight }}.png' title='Вес: {{ ticket.weight }}'></td>
+                <td class='title'>
+                    <a href='./?stage=edit&id={{ ticket.id }}'><span class="ticket_id">{{ ticket.id }}.</span>{{ ticket.title }}</a>
+                </td>
+                <td>{{ areas[ticket.area] }}</td>
+                <td class='creator'>
+                    <a class="ticket_creator" data-id="{{ ticket.creator }}">
+                        {{ users[ticket.creator].lastname }} {{ users[ticket.creator].firstname [:1] }}.{{ users[ticket.creator].middlename [:1] }}.
+                    </a>
+                </td>
+                <td>
+                    {% for p in ticket.performers %}
+                        <span>{{ p.lastname }} {{ p.firstname [:1] }}.{{ p.middlename [:1] }}.{{ (loop.index != ticket.performers | length )? ', ' }}</span>
+                    {% endfor %}
+                </td>
+
+                {% for column in ['created', 'changed', 'deadline'] %}
+                    {% set y,m,d,y0,m0,d0 = ticket[column] | date("Y"), ticket[column] | date("m"), ticket[column] | date("j"), "now" | date("Y"), "now" | date("m"), "now" | date("j") %}
+                        {% if ticket[column]>0 %}
+                            {% if y == y0 %}
+                                {% if m == m0 %}
+                                    {% if d == d0 %}
+                                        {% set td = (column == 'created' or column == 'changed') ? ticket[column] | date("G:i") : "сегодня" %}
+                                        {% set title = (column == 'created' or column == 'changed') ? "Сегодня в " ~ ticket[column] | date("G:i") : "" %}
+                                    {% elseif d == d0 - 1 %}
+                                        {% set td = "вчера" %}
+                                        {% set title = (column == 'created' or column == 'changed') ? "Вчера в " ~ ticket[column] | date("G:i") : "" %}
+                                    {% elseif d == d0 + 1 %}
+                                        {% set td = "завтра" %}
+                                    {% else %}
+                                        {% set td = d ~ " " ~ MONTHS_G[m - 1][:3] %}
+                                        {% set title = (column == 'created' or column == 'changed') ? d ~ " " ~ MONTHS_G[m - 1] ~ " в " ~ (ticket[column] | date("G:i")) %}
+                                    {% endif %}
+                                {% else %}
+                                    {% set td = d ~ " " ~ MONTHS_G[m - 1][:3] %}
+                                    {% set title = (column == 'created' or column == 'changed') ? d ~ " " ~ MONTHS_G[m - 1] ~ " в " ~ (ticket[column] | date("G:i")) %}
+                                {% endif %}
+                            {% else %}
+                                {% set td = d ~ "." ~ m ~ "." ~ y %}
+                                {% set title = d ~ " " ~ MONTHS_G[m - 1] ~ y ~ "г. в " ~ ticket[column] | date("G:i") %}
+                            {% endif %}
+                        {% else %}
+                            {% set td = "—" %}
+                        {% endif %}
+                    <td class="c-align {{ column }} {{ y==y0 and m==m0 and d==d0 ? "today" }}" title="{{ title }}" >
+                        {{ td }}
+                    </td>
+                {% endfor %}
+
+
+                {#{% set y,m,d,y0,m0,d0 = ticket.changed | date("Y"), ticket.changed | date("m"), ticket.changed | date("d"), "now" | date("Y"), "now" | date("m"), "now" | date("d")%}#}
+                {#<td class="c-align changed" title="{{ ticket.changed > 0 ? ticket.changed | date("H:i") : "" }}">#}
+                    {#{% if ticket.changed > 0 %}#}
+                        {#{% if ticket.changed | date("Y") == "now" | date("Y") %}#}
+                            {#{{ ticket.changed | date("j") }} {{ MONTHS_G[ticket.changed | date("m") - 1][:3]}}#}
+                        {#{% else %}#}
+                            {#{{ ticket.changed | date("d.m.Y") }}#}
+                        {#{% endif %}#}
+                    {#{% else %}#}
+                        {#—#}
+                    {#{% endif %}#}
+                {#</td>#}
+
+                {#<td class="c-align deadline">#}
+                    {#{% if ticket.deadline > 0 %}#}
+                        {#{% if ticket.deadline | date("Y") == "now" | date("Y") %}#}
+                            {#{{ ticket.deadline | date("j") }} {{ MONTHS_G[ticket.deadline | date("m") - 1][:3]}}#}
+                        {#{% else %}#}
+                            {#{{ ticket.deadline | date("d.m.Y") }}#}
+                        {#{% endif %}#}
+                    {#{% else %}#}
+                        {#—#}
+                    {#{% endif %}#}
+                {#</td>#}
+
+                <td class="c-align rate">
+                    <img src="/stat/img/helpdesk/rate_{{ ticket.rate is empty ? "0" : ticket.rate }}_min.png" title="{{ ticket.rate }}">
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan='11' class='not_found'>Заявок не найдено.</td>
+        </tr>
+    {% endif %}
+
+    </table>
+    <div class='table-footer'>
+        <span class='statusbar'>Заявок: {{ row_count }}</span>
+        {% if pages>1 %}
+            <div class="pagenumbers">
+                {% for i in 0..pages-1 %}
+                    {% if (i == 1 and page>3) or (i == page + 3 and pages - page > 4) %}
+                        <span class = 'pagespace'>…</span>
+                    {% else %}
+                        {% if (i == 0) or ((i > page - 3) and (i < page + 4)) or (i == pages-1) %}
+                            {% if page==i %}
+                                <span class="page current">{{ i + 1 }}</span>
+                            {% else %}
+                                <a class="page" href='/helpdesk?{{ get_for_pagenumbers }}page={{ i }}'>{{ i + 1 }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class='buttons'>
+        <div class='right'>
+            <a class='button green' href='./?stage=new'>Новая заявка</a>
+        </div>
+    </div>
+
+</div>
+    <div class='float filter'>
+        <div class='header'>Фильтры
+            <a class="settings">
+                <img id="button_filters_settings" src="/stat/img/settings.png">
+            </a>
+        </div>
+
+        <div class='filters_block'>
+
+            {% include 'helpdesk/filters_block.twig' %}
+
+        </div>
+
+        <hr>
+
+        {# Блок 'Ответственный' #}
+        <div class='params_block contractor cut_block cutted'>
+            <span class="cutter pic"></span>
+            <span class='category_name cutter'>Ответственный</span>
+            <span class="count"></span>
+            <div class='cut'>
+                {% for contractor in admins %}
+
+                    {% set c_id  = contractor.uid%}
+                    {% set c_fio = contractor.lastname ~ " " ~ contractor.firstname %}
+                    {% if c_id==admin_id %}   {% set its_me,c_id,c_fio='its_me',0,'Я' %}
+                    {% else %}                {% set its_me='' %}
+                    {% endif %}
+
+                    <div class='param {{ its_me }}'>
+                        <label><input class="filter_checkbox" type='checkbox' data-contractor='{{ c_id }}'/>{{ c_fio }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Блок 'Исполнители' #}
+        <div class='params_block performers cut_block cutted'>
+            <span class="cutter pic"></span>
+            <span class='category_name cutter'>Исполнители</span>
+            <span class="count"></span>
+            <div class='cut'>
+                {% for performer in admins %}
+
+                    {% set p_id  = performer.uid %}
+                    {% set p_fio = performer.lastname ~ " " ~ performer.firstname %}
+                    {% if p_id==admin_id %}   {% set its_me,p_id,p_fio='its_me',0,'Я' %}
+                    {% else %}                {% set its_me='' %}
+                    {% endif %}
+
+                    <div class='param {{ its_me }}'>
+                        <label><input class="filter_checkbox" type='checkbox' data-performers="@{{ p_id }}@"/>{{ p_fio }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Блок 'Статус' #}
+        {% if statuses %}
+            <div class='params_block status cut_block cutted'>
+                <span class="cutter pic"></span>
+                <span class='category_name cutter'>Статус</span>
+                <span class="count"></span>
+                <div class='cut'>
+                    {% for status_id,status in statuses %}
+                        <div class='param'>
+                            <label>
+                                <input class="filter_checkbox" type='checkbox' data-status='{{ status_id }}'/>
+                                {#<img class="inline-icon" src="/stat/img/helpdesk/status_{{ status_id }}.png"/>#}
+                                {{ status.name }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {# Блок 'Территория' #}
+        {% if areas %}
+            <div class='params_block area cut_block cutted'>
+                <span class="cutter pic"></span>
+                <span class='category_name cutter'>Территория</span>
+                <span class="count"></span>
+                <div class='cut'>
+                    {% for area_id,area in areas %}
+                        <div class='param'>
+                            <label><input class="filter_checkbox" type='checkbox' data-area='{{ area_id }}'/>{{ area }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {# Блок 'Тип' #}
+        {#<div class='params_block type cut_block cutted'>#}
+            {#<span class="cutter pic"></span>#}
+            {#<span class='category_name cutter'>Тип</span>#}
+            {#<span class="count"></span>#}
+            {#<div class='cut'>#}
+                {#{% for type in types %}#}
+                    {#<div class='param'>#}
+                        {#<label><input class="filter_checkbox" type='checkbox' data-type='{{ type.id }}'/>{{ type.name }}</label>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#</div>#}
+        {#</div>#}
+
+        {# Блок 'Оценка' #}
+        <div class='params_block rate cut_block cutted'>
+            <span class="cutter pic"></span>
+            <span class='category_name cutter'>Оценка</span>
+            <span class="count"></span>
+            <div class='cut'>
+                {% for rate in 5..1 %}
+                    <div class='param'>
+                        <label><input class="filter_checkbox" type='checkbox' data-rate='{{ rate }}'/>{{ rate }} балл{{ rate==5? "ов" : rate>1 ? "a" }}</label>
+                    </div>
+                {% endfor %}
+
+                <div class='param'>
+                    <label><input class="filter_checkbox" type='checkbox' data-rate='0'/>без оценки</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class='filter_buttons'>
+            <a class='apply_filter' onclick="applyFilter()">Показать</a>
+            <a class='reset_filter' onclick="resetFilter()">Очистить</a>
+            <a class='save_filter'  onclick="saveFilter()" >Сохранить</a>
+        </div>
+    </div>
+{% endblock content %}
+
+{% endspaceless %}

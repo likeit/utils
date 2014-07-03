@@ -1,0 +1,70 @@
+
+.supply.list .col-status	{	width: 25px;	}
+.supply.list .col-model	    {	width: 175px;	}
+.supply.list .col-use	    {	width: 70px;	}
+.supply.list .col-full	    {	width: 70px;	}
+.supply.list .col-area	    {	width: 150px;	}
+
+.bold {
+    font-weight: bold;
+}
+
+.bad {
+    color: #e00;
+}
+
+.warn {
+    color: #f80;
+}
+
+.good {
+    color: #0b0;
+}
+
+.notify {
+    color: #aaa;
+}
+
+.supply.list,
+.table-footer,
+.content>.buttons {
+    width: 860px;
+    margin: 0 auto;
+}
+
+.content>.buttons {
+    margin-top: 20px;
+}
+
+form textarea {
+    width: 568px;
+}
+
+.replace,
+.buy {
+    display: none;
+}
+
+tr:hover a.replace,
+tr:hover a.buy {
+    display: inline-block;
+    margin: 0 5px;
+    position: relative;
+    top: 2px;
+}
+
+a.replace img,
+a.buy img
+{
+    opacity: .75;
+}
+
+a.replace img:hover,
+a.buy img:hover {
+    opacity: 1;
+}
+
+.form_block.header {
+    width: 600px;
+    margin: 0 auto 20px;
+}

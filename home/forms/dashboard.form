@@ -1,0 +1,111 @@
+//<?php
+
+$users_statuses = "";
+foreach ($statuses as $k=>$v) {
+    if ($users_cnt[$k]>0)
+    $users_statuses .= "<tr  class='status_$k'>
+    <td class='l-align'>
+        <!--<img src='/stat/img/user_status_$k.png'>-->
+        <a href='/users?status_id=$k'>
+            $v</a>:
+    </td>
+    <td class='r-align'>
+         <a href='/users?status_id=$k'>
+            ".$users_cnt[$k]."
+         </a>
+    </td>
+</tr>";
+}
+
+/*$supply_statuses = "";
+foreach ($statuses as $k=>$v) {
+    $supply_statuses .= "<li>$v: <a href='/users?status_id=$k'>".$supply_cnt[$k]."</a></li>";
+}*/
+
+$page .= "
+<div class='widget'>
+    <div class='wrapper'>
+        <div class='widget-header'>
+            <h5>Пользователи</h5>
+        </div>
+
+        <div class='widget-content'>
+            <table>
+            $users_statuses
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class='widget'>
+    <div class='wrapper'>
+        <div class='widget-header'>
+            <h5>Расходники</h5>
+        </div>
+
+        <div class='widget-content'>
+            <table>
+                <tr>
+                    <td colspan='2' class='header'>Капотня:</td>
+                </tr>
+                <tr  class='status_3'>
+                    <td class='l-align'><a href='/supply?model=3&stage=list&area=0'>HP CE505X</a>:</td>
+                    <td class='r-align'><a href='/supply?model=3&stage=list&area=0'>1 / 2</a></td>
+                </tr>
+                <tr>
+                    <td colspan='2' class='header'>Курская:</td>
+                </tr>
+                <tr  class='status_1'>
+                    <td class='l-align'><a href='/supply?model=14&stage=list&area=0'>HP CE285A</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>0 / 1</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+";
+/*<div class='widget'>
+    <div class='wrapper'>
+        <div class='widget-header'>
+            <h5>Задачи</h5>
+        </div>
+
+        <div class='widget-content'>
+            <table>
+                <tr  class='status_1'>
+                    <td class='l-align'><a href='/helpdesk?model=3&stage=list&area=0'>Открыто</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>1</a></td>
+                    <td>/</td>
+                    <td><a href='/supply?model=14&stage=list&area=0'>2</a></td>
+                </tr>
+                <tr  class='status_3'>
+                    <td class='l-align'><a href='/supply?model=14&stage=list&area=0'>В работе</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>18</a></td>
+                    <td>/</td>
+                    <td><a href='/supply?model=14&stage=list&area=0'>21</a></td>
+                </tr>
+                <tr  class='status_5'>
+                    <td class='l-align'><a href='/supply?model=14&stage=list&area=0'>Отложен</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>2</a></td>
+                    <td>/</td>
+                    <td><a href='/supply?model=14&stage=list&area=0'>3</a></td>
+                </tr>
+                <tr  class='status_5'>
+                    <td class='l-align'><a href='/supply?model=14&stage=list&area=0'>В ожидании</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>2</a></td>
+                    <td>/</td>
+                    <td><a href='/supply?model=14&stage=list&area=0'>2</a>
+                    </td>
+                </tr>
+                <tr  class='status_2'>
+                    <td class='l-align'><a href='/supply?model=14&stage=list&area=0'>Закрыто</a>:</td>
+                    <td class='r-align'><a href='/supply?model=14&stage=list&area=0'>37</a></td>
+                    <td>/</td>
+                    <td><a href='/supply?model=14&stage=list&area=0'>85</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+";*/

@@ -1,0 +1,113 @@
+//<?php
+
+$page .= '
+<!-- begin filter -->
+<table class="users list">
+    <col class="col-status"/>
+    <col class="col-fio"/>
+    <col class="col-login"/>
+    <col class="col-pass"/>
+    <col class="col-area"/>
+    <col class="col-dept"/>
+    <col class="col-post"/>
+    <col class="col-modiff"/>
+    <tr>
+        <form name="form" method="get">
+            <th class="status">
+                <a id="user-status" class="popup_button">
+                    <img src="/stat/img/user_status_0.png">
+                </a>
+                <div id="popup_user-status" class="popup_menu unsensitive">
+                    <ul>';
+                        $page .= "<li><label><input type='checkbox' class='check_all'>&nbsp;Все</label></li><hr>";
+                        $status_arr = explode(",",$status_id);
+
+                        foreach($statuses as $k => $v) {
+                            $checked = (array_search($k, $status_arr)>-1) ? "checked": "";
+                            $page .= "<li><label><input type='checkbox' class='group' data-id='$k' $checked>&nbsp;".$v.'</a></label></li>';
+                        };
+
+                        $page .= "<hr>
+                        <li class='center'><a id='filter_by_status' class='link_button group'>Показать</a></li>
+                    </ul>
+                </div>";
+                $page .= '<input type="hidden" name="status_id" id="status_id" value="'.$status_id.'">
+            </th>
+            <th>ФИО <a href="?stage=conf&order_by=lastname">▲</a></th>
+            <th>Логин <a href="?stage=conf&order_by=login">▲</a></th>
+            <th>Пароль</th>
+            <th class="l-align">Территория:	<a id="user-area" class="popup_button">';
+                    $page .= ($area_id == 0) ? 'Любая' : $areas[$area_id];
+                    $page .= '</a>
+                <div id="popup_user-area" class="popup_menu">
+                    <ul>';
+                        $page .= ($area_id == 0) ? '<li class="center current">Любая</li><hr>' :
+                            '<li class="center"><a href="javascript: $(&quot;input[name=area_id]&quot;).val(0);
+                            document.form.submit()" class="popup_button">Любая</a></li><hr>';
+
+                        foreach($areas as $k => $v) {
+                            $page .= ($area_id == $k) ? '<li class="current">'.$v.'</li>' :
+                                '<li><a href="javascript: $(&quot;input[name=area_id]&quot;).val('.$k.');
+                                document.form.submit()">'.$v.'</a></li>';
+                        };
+
+                        $page .= '
+                    </ul>
+                </div>';
+                $page .= '<input type="hidden" name="area_id" value="'.$area_id.'">
+            </th>
+
+            <th class="l-align">Отдел:	<a id="user-dept" class="popup_button">';
+                    $page .= ($dept_id == 0) ? 'Все' : $depts[$dept_id];
+                    $page .= '</a>
+                <div id="popup_user-dept" class="popup_menu">
+                    <ul>';
+                        $page .= ($dept_id == 0) ? '<li class="center current">Все</li><hr>' :
+                            '<li class="center"><a href="javascript: $(&quot;input[name=dept_id]&quot;).val(0);
+                            document.form.submit()" class="popup_button">Все</a></li><hr>';
+
+                        foreach($depts as $k => $v) {
+                            $page .= ($dept_id == $k) ? '<li class="current">'.$v.'</li>' :
+                                '<li><a href="javascript: $(&quot;input[name=dept_id]&quot;).val('.$k.');
+                                document.form.submit()">'.$v.'</a></li>';
+                        };
+
+                        $page .= '
+                    </ul>
+                </div>';
+                $page .= '<input type="hidden" name="dept_id" value="'.$dept_id.'">
+            </th>
+
+            <th class="l-align">Должность:	<a id="user-post" class="popup_button">';
+                    $page .= ($post_id == 0) ? 'Все' : $posts[$post_id];
+                    $page .= '</a>
+                <div id="popup_user-post" class="popup_menu">
+                    <ul>';
+                        $page .= ($post_id == 0) ? '<li class="center current">Все</li>' :
+                            '<li class="center"><a href="javascript: $(&quot;input[name=post_id]&quot;).val(0);
+                            document.form.submit()" class="popup_button">Все</a></li>';
+
+                        foreach($depts_posts_list as $d_id => $posts_arr) {
+                            if (($dept_id == 0) or ($dept_id == $d_id)) {
+                                $page .= '<div class="dept_title"><hr><span>'.$depts[$d_id].'</span></div>'; // Отдел
+                                $posts_arr = explode(',', $posts_arr);
+                                foreach($posts_arr as $p_id) { // Должности
+                                    $page .=  ($post_id == $p_id) ? '<li class="current">'.$posts[$p_id].'</li>' :
+                                        '<li><a href="javascript: $(&quot;input[name=post_id]&quot;).val('.$p_id.');
+                                        document.form.submit()">'.$posts[$p_id].'</a></li>';
+                                };
+                            };
+                        };
+
+                        $page .= '
+                    </ul>
+                </div>';
+                $page .= '<input type="hidden" name="post_id" value="'.$post_id.'">
+            </th>
+
+            <th>Изменен<a href="index.php?stage=conf&order_by=modiff">▲</a></th>
+            <input type="hidden" name="stage" value="list"/>
+        </form>
+    </tr>
+    <!-- end filter -->
+    ';

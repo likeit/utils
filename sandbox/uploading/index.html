@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="/stat/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        function sendPhoto() {
+            var file = document.getElementById('fileBox').files[0]; //Files[0] = 1st file
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = shipOff;
+            //reader.onloadstart = ...
+            //reader.onprogress = ... <-- Allows you to update a progress bar.
+            //reader.onabort = ...
+            //reader.onerror = ...
+            reader.onloadend = console.log('Загружен');
+        }
+
+
+        function shipOff(event) {
+            var result   = event.target.result;
+            var fileName = document.getElementById('fileBox').files[0].name;
+            var fileExt  = getFileExt(fileName);
+            $.post('/sandbox/uploading/myscript.php',
+                    {
+                        action: "uploadPhoto",
+                        filename: 3 + fileExt,
+                        photo: result
+                    },
+                    function(base64_img) {
+                        $('#photo').attr('src',base64_img)
+                    });
+        }
+    </script>
+</head>
+<body>
+    <!--<form onsubmit='sendPhoto'>-->
+        <input type="file" id='fileBox' onchange="sendPhoto()"/>
+        <input type="submit"/>
+        <img id='photo'/>
+    <!--</form>-->
+</body>
+</html>

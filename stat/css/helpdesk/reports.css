@@ -1,0 +1,122 @@
+h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: .95rem;
+}
+
+.filter_container,
+.report_container {
+    width: 960px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 1px 2px 10px hsla(0,0%,0%,.3), 0 0 3px hsla(0,0%,0%,.2);
+}
+
+.col-fio    { width: 20% }
+/*.col-opened { width: 25% }*/
+/*.col-closed { width: 25% }*/
+/*.col-rating { width: 25% }*/
+
+.report {
+    width: 100%;
+    table-layout: fixed;
+    margin: 20px 0;
+}
+
+.report tr {
+    background: white;
+    opacity: .6;
+}
+
+.report tr:first-of-type,
+.report .me,
+.report tr:last-of-type {
+    opacity: 1
+}
+
+.report th {
+    border-bottom: 1px solid #bbb;
+    font: bold .8rem Trebuchet MS, Arial, Helvetica;
+    background: none;
+    color: #444;
+    padding-bottom: 2px;
+    font-weight: normal;
+    text-transform: lowercase;
+}
+
+.report th,
+.report td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.report .fio {
+    text-align: left;
+}
+
+.report td {
+    line-height: 40px;
+    padding: 0 5px;
+    /*font-size: .9rem;*/
+    font-size: .95rem;
+}
+
+.report tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.report tr:last-of-type {
+    border-top: 1px solid #bbb;
+    background: none;
+}
+
+.report tr:last-of-type td:first-of-type{
+    /*font-weight: bold;*/
+}
+
+.datanumbers                    { color: #666; font-family: "Georgia", serif; }
+.datanumbers a                  { text-decoration: none }
+.datanumbers a:hover            { text-decoration: underline }
+.datanumbers .opened            { color: #d70 }
+.datanumbers .waited            { color: hsl(210, 100%, 60%); }
+.datanumbers .paused            { color: hsl(270, 50%,  60%); }
+.datanumbers .done              { color: hsl(65,  100%, 37%); }
+.datanumbers .closed            { color: hsl(110, 100%, 37%); }
+.datanumbers .cancelled         { color: #888 }
+/*.datanumbers .slash             { color: #aaa }*/
+.report img {
+    position: relative;
+    top: 3px;
+}
+
+.popup_button {
+    border-bottom: 1px dashed;
+    display: inline-block;
+    height: 1.2rem;
+}
+
+.verygood  { color: #0c0 }
+.good      { color: #ab0 }
+.notbad    { color: #c80 }
+.bad       { color: #b33 }
+.not_rated { color: #aaa }
+.gray      { color: #444 }
+
+#popup_date {
+    padding: 0 4px;
+}
+
+#popup_date ul {
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px 4px;
+}
+
+li.freeman,
+li.freeman a {
+    opacity: .7;
+    /*text-decoration: line-through;*/
+}

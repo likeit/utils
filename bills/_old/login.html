@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Управление пользователями ДППА "Авто-Старт"</title>
+	<meta http-equiv="Content-Type" content="text/html; charset='utf-8'" />
+	<link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.maskedinput.js"></script>
+	<script type="text/javascript" src="/js/jquery.tabs.js"></script>
+	<script type="text/javascript" src="/js/users.js"></script>
+</head>
+
+<body class="login">
+	<div id="top">
+		<ul class="lmenu">
+			<li class="active"><a href="/">Users</a>
+			<li><a href="http://wiki.avto-sale.local">Wiki</a>
+			<li><a href="http://cartridge.avto-sale.local">Cartridges</a>
+		</ul>
+	</div>
+	
+	<div id="spacer"></div>
+	<div id="notify" class=<?php echo '"'.$msg_class.'">'.$msg ?>&nbsp;</div>
+	
+	<div id="login_container">
+		<h2>Управление пользователями</h2>
+		<hr noshade>
+		<form name="login_form" method="post">
+			<label>Логин:</label>&nbsp;<input type="text" name="name" size="15"><br>
+			<label>Пароль:</label>&nbsp;<input type="password" name="pass" size="15" onkeypress="submitOnEnter(event,this);">
+			<input name="stage" type="hidden" value="Go">
+		</form>
+		<a href="javascript:document.login_form.submit()" class="button" >Вход</a>
+	</div>
+</body>
+
+</html>

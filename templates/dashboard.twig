@@ -1,0 +1,102 @@
+{% extends 'utils.twig' %}
+{% block search %}{% endblock search %}
+{% block content %}
+    <div class="widgets-wrapper">
+        <div class='widget'>
+            <div class='wrapper'>
+
+                <div class='widget-header'>
+                    <h5>Пользователи</h5>
+                </div>
+
+                <div class='widget-content'>
+                    <table>
+                        {% for k,v in user_statuses  %}
+                            {% if users_cnt[k]>0 %}
+                                <tr  class='user_status_{{ k }}'>
+                                    <td class='l-align'>
+                                        {% if permissions['users'] != 'deny' %}
+                                            <a href='/users?status_id={{ k }}'>{{ v }}:</a>
+                                        {% else %}
+                                            <span>{{ v }}:</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class='r-align'>
+                                        {% if permissions['users'] != 'deny' %}
+                                            <a href='/users?status_id={{ k }}'>{{ users_cnt[k] }}</a>
+                                        {% else %}
+                                            <span>{{ users_cnt[k] }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class='widget'>
+            <div class='wrapper'>
+                <div class='widget-header'>
+                    <h5>Картриджи</h5>
+                </div>
+
+                <div class='widget-content'>
+                    <table>
+                        {% for area_id,area_name in areas  %}
+                            {% set warning=false %}
+                            {% for ws in warning_supplies %}
+                                {% if (ws.area == area_id) and (ws.status!=2)%}
+                                    {% set warning=true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if warning==true %}
+                                <tr>
+                                    <td colspan='2' class='header'>
+                                        <a class="area_title" href='/supply?model={{ ws.model_id }}&stage=list&area={{ area_id }}'>
+                                            {{ area_name ~ ":"}}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {#{% set warning=false %}#}
+
+                                {% for ws in warning_supplies %}
+                                    {% if (ws.area == area_id) and (ws.status != 2)%}
+                                        {#{% set warning=true %}#}
+                                        <tr  class='supply_status_{{ ws.status }} widget-data'>
+                                            <td class='l-align'>
+                                                <a href='/supply?model={{ ws.model_id }}&stage=list&area={{ area_id }}'>
+                                                    {{ ws.model_name | raw }}:&nbsp;
+                                                </a>
+                                            </td>
+                                            <td class='r-align'>
+                                                <a href='/supply?model={{ ws.model_id }}&stage=list&area={{ area_id }}' title='полных / установленных'>
+                                                    &nbsp; {{ ws.full }} / {{ ws.use }}
+                                                </a>&nbsp;
+                                                <a href='http://www.cartridge4u.ru/?action=buy_now&BUYproducts_id={{ ws.buy_id }}' target='_blank' class='buy inline-icon' title='Заказать'>
+                                                    <img src='/stat/img/buy.png'>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% else %}
+                                <tr>
+                                    <td class="header l-align">
+                                        <a class="area_title" href='/supply?model={{ ws.model_id }}&stage=list&area={{ area_id }}'>
+                                            {{ area_name }}
+                                        </a>
+                                    </td>
+                                    <td class='supply_status_2 r-align'>ОК</td>
+                                </tr>
+                            {% endif %}
+
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

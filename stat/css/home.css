@@ -1,0 +1,99 @@
+.content {
+    /*text-align: center;*/
+}
+
+.widget {
+    float: left;
+    margin: 10px;
+    font-size: .9rem;
+    box-shadow: 1px 1px 4px hsla(0, 0%, 0%, 0.2);
+}
+
+.widgets-wrapper {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.widget .wrapper {
+    min-width: 0;
+    width: auto;
+}
+
+.widget td  {
+    line-height: 1.4rem;
+    padding: 0 2px;
+}
+
+.widget h5 {
+    text-align: center;
+    font-weight: normal;
+    font: .7rem "Verdana";
+    line-height: 1.4rem;
+}
+
+
+.widget-header {
+    /*background: hsl(210, 100%, 95%);*/
+    /*background: hsla(0,0%,0%,.05);*/
+    /*border: 1px solid hsl(0,0%,80%);*/
+    /*border-radius: 1rem 1rem 0 0;*/
+    /*color: #000;*/
+    /*height: 1.4rem;*/
+
+    border-bottom: 1px solid #bbb;
+    font-weight: normal;
+    font: .75rem Trebuchet MS, Arial, Helvetica;
+    background: none;
+    text-shadow: 1px 1px 0 #e4e4e4;
+    background: -webkit-linear-gradient(top,hsla(0,0%,0%,.02),hsla(0,0%,0%,.08));
+    background:    -moz-linear-gradient(top,hsla(0,0%,0%,.02),hsla(0,0%,0%,.08));
+    background:         linear-gradient(top,hsla(0,0%,0%,.02),hsla(0,0%,0%,.08));
+    color: #555;
+}
+
+.widget-header a {
+    color: #555;
+    display: inline-block;
+    width: 100%;
+}
+
+.widget-content {
+    color: #888;
+    /*border: solid hsla(0,0%,0%,.1);*/
+    /*border-width: 0 1px 1px 1px;*/
+    /*border-radius: 0 0 1rem 1rem;*/
+    padding: 10px;
+    background: hsla(0,0%,100%,.66);
+    border-bottom: 1px solid #bbb;
+}
+.widget-data {
+    font-size: .75rem;
+}
+
+.widget a       { text-decoration: none }
+.widget a:hover { text-decoration: underline }
+
+.user_status_1, .user_status_1 * { color: #d33 }
+.user_status_2, .user_status_2 * { color: #0b0 }
+.user_status_3, .user_status_3 * { color: hsl(260, 60%, 60%) }
+.user_status_4, .user_status_4 * { color: #aaa }
+.user_status_5, .user_status_5 * { color: hsl(210, 90%, 50%); }
+.user_status_6, .user_status_6 * { color: #f80 }
+.user_status_7, .user_status_7 * { color: #f80 }
+
+.supply_status_1,.supply_status_1 *   { color: #d33 }
+.supply_status_2,.supply_status_2 *   { color: #0b0 }
+.supply_status_3,.supply_status_3 *   { color: #f80 }
+
+
+
+
+.widget .header {
+    /*padding-top: 10px;*/
+    /*text-align: center;*/
+    line-height: 1.5rem;
+}
+
+.area_title {
+    color: #444;
+}

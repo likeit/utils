@@ -1,0 +1,208 @@
+{% extends '/utils.twig' %}
+{% spaceless %}
+
+{% block search %}{% endblock search %}
+
+{% if ticket.id %}
+    {% set header='#' ~ ticket.id ~ '. ' ~ ticket.title %}
+{% else %}
+    {% set header='Новая заявка' %}
+{% endif %}
+    {#{% set pagename=header ~ " :: Задачник" %}#}
+
+
+{% block content %}
+
+    <div class="edit_form">
+        <form id="ticket_edit" name="ticket_edit" action="/helpdesk/?stage=save&id={{ ticket.id }}" method="post">
+        <input type="hidden" id="ticket_id" value="{{ ticket.id }}"/>
+        <div class="form_block header">
+            <h3 class="title">
+                <a id="change-status" class="popup_button">
+                    <img src='/stat/img/helpdesk/status_{{ ticket.status }}.png'>
+                </a>
+                <input type="hidden" id="input-status" name="status" value="{{ ticket.status }}">
+                <div id="popup_change-status" class="popup_menu">
+                    <ul>
+                    {% for id,status in statuses %}
+                        <li class="i-change-status {{ id == ticket.status ? "current" }}">
+                            <a data-status="{{ id }}" onclick="changeStatus('{{ id }}')">
+                                <img class="icon" src="/stat/img/helpdesk/status_{{ id }}.png">{{ statuses[id].name }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                &nbsp;{{ ticket.id ? "#" ~ ticket.id ~ "." }}&nbsp;
+                <input  name="title" type="text" value="{{ ticket.title }}" class="title_input" {{ ticket.id ? : "autofocus=autofocus" }} placeholder="Новая заявка"/>
+                {% if ticket.id %}
+                    <span class='ticket_edit_rating'>
+                        {% if admin_id == ticket.creator or admin_id in [164,177] %}
+                            {% for i in 1..5 %}
+                                <a href="javascript: rateTicket('{{ ticket.id }}', '{{ i }}' )">
+                                    <img src="/stat/img/helpdesk/rate_{{ ticket.rate >= i ? 1 : 0 }}.png">
+                                </a>
+                            {% endfor %}
+                        {% else  %}
+                            {% for i in 1..5 %}
+                                <img src="/stat/img/helpdesk/rate_{{ ticket.rate >= i ? 1 : 0 }}.png">
+                            {% endfor %}
+                        {% endif %}
+                    </span>
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="form_block details">
+
+            <div class="form_line">
+                    <div class="area">
+                        <label>Территория:
+                            <a id="change-area" class="popup_button">
+                                {{ ticket.area ? areas[ticket.area] : areas[6] }}
+                            </a>
+                        </label>
+
+                        <input type="hidden" id="input-area" name="area" value="{{ ticket.area ? ticket.area : areas[6] }}">
+
+                        <div id="popup_change-area" class="popup_menu">
+                            <ul>
+                            {% for id,area in areas %}
+                                <li class="i-change-area {{ id == ticket.area ? "current" }}">
+                                    <a data-area="{{ id }}" onclick="changeArea('{{ id }}')">{{ area }}</a>
+                                </li>
+                                {{ id==2 ? "<hr>" }}
+                            {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="deadline">
+                        <label>Срок:
+                            <input id="input-deadline" name="deadline" class="popup_button calendar" readonly
+                                   value="{{ ticket.deadline > 0 ? ticket.deadline | date("d.m.Y") : "не указан"}}"/>
+                        </label>
+                        <a class="clear-deadline {{ ticket.deadline > 0 ?: "hidden"}}" onclick="clearDeadline()">
+                            <img class="icon clear-deadline-icon" src="/stat/img/small_close.gif" alt=""/>
+                        </a>
+                    </div>
+            </div>
+
+            <div class="description">
+                <textarea class="edit_description" name="description" placeholder="Описание">{{ ticket.description }}</textarea>
+            </div>
+
+            <div class="tags_container">
+                <div id="tags" class="form_line popup_button">
+                    {% if ticket.tags  > 0 %}
+                        {% for tag in ticket.tags %}
+                            <a class="tag active weight_{{ (tags[tag].weight * 5) | round }}">{{ tags[tag].name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        <a class="tag active">добавить метки</a>
+                    {% endif %}
+                </div>
+
+                <input type="hidden" id="input-tags" name="tags" value="{{ ticket.tags | join(",") }}"/>
+
+            </div>
+
+            <div id="popup_tags" class="popup_menu unsensitive">
+                {% for tag in tags %}
+                    <a data-weight="{{ tag.weight }}" data-id="{{ tag.id }}"  class="tag sensitive weight_{{ (tag.weight * 5) | round }} {{ tag.id in ticket.tags ? "active" }}">{{ tag.name }}</a>
+                {% endfor %}
+                {#<hr>#}
+                {#<table class="buttons">#}
+                    {#<tr>#}
+                        {#<td class="cancel-tags_container">#}
+                            {#<a id="cancel-tags" class="sensitive button red">отмена</a>#}
+                        {#</td>#}
+                        {#<td class="update-tags_container">#}
+                            {#<a id="update-tags" class="sensitive button green">выбрать</a>#}
+                        {#</td>#}
+                        {#<td class="add-tag_container">#}
+                            {#<a id="add-tag" class="button blue">+</a>#}
+                        {#</td>#}
+                    {#</tr>#}
+                {#</table>#}
+            </div>
+
+        </div>
+
+        <div class="form_block members">
+            {% if ticket.id %}
+                <div class="ticket_creator_and_changer">
+                    <label>Создал</label>
+                    <span class="ticket_created">
+                        {% if ticket.created | date("Y") == "now" | date("Y") %}
+                            {{ "(" ~ ticket.created | date("j") }} {{ MONTHS_G[ticket.created | date("m") - 1][:3] }} в {{ ticket.created | date("H:i") ~ "):" }}
+                        {% else %}
+                            {{ ticket.created | date("d.m.Y \\в H:i") }}
+                        {% endif %}
+                    </span>
+                    <a class="ticket_creator" data-id="{{ ticket.creator }}">
+                        {{ users[ticket.creator].lastname}} {{ users[ticket.creator].firstname}}
+                    </a>
+                    <br>
+                    <br>
+                    {% if ticket.changer %}
+                        <label>Изменил</label>
+                        <span class="ticket_changed">
+                            {% if ticket.changed | date("Y") == "now" | date("Y") %}
+                                {{ "(" ~ ticket.changed | date("j") }} {{ MONTHS_G[ticket.changed | date("m") - 1][:3] }} в {{ ticket.changed | date("H:i") ~ "):" }}
+                            {% else %}
+                                {{ ticket.changed | date("d.m.Y \\в H:i") }}
+                            {% endif %}
+                        </span>
+                        <a class="ticket_changer" data-id="{{ ticket.changer }}">
+                            {{ admins[ticket.changer].lastname}} {{ admins[ticket.changer].firstname}}
+                        </a>
+                    {% endif %}
+
+                </div>
+            {% endif %}
+
+            <div class="contractor">
+                <label>Ответственный:<br>
+                    <select name="contractor">
+                        {% for admin in admins %}
+                            {% set selected = ((ticket.id == '' or not ticket.contractor) and admin.uid == admin_id) or (ticket.contractor == admin.uid ) %}
+                            <option value="{{ admin.uid }}" {{ selected ? "selected" }}>{{ admin.lastname }} {{ admin.firstname }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+            <br>
+
+            <div class="performers">
+                <label>Исполнители:</label>
+                {% for admin in admins %}
+                    {% set checked = (admin.uid in ticket.performers) or (ticket.performers[0] == "" and admin.uid == admin_id) %}
+                    <label class="performer">
+                        <input class="performer" type="checkbox" data-performer="{{ admin.uid }}" {{ checked ? "checked" }}/>
+                        {{ admin.lastname }} {{ admin.firstname }}
+                    </label>
+                {% endfor %}
+                <input type="hidden" name="performers"/>
+            </div>
+
+        </div>
+
+        {% if ticket.id %}
+            <div id="comments_block" class="form_block cut_block cutted">
+                {% include 'helpdesk/ticket_edit_comments.twig'%}
+            </div>
+        {% endif %}
+
+        </form>
+        <div class="spacer"></div>
+        <div class="buttons">
+            <a class="button red" id="back"  href="javascript: (history.length > 1) ? history.back() : location = '/helpdesk/'">« Вернуться</a>
+            <div class="right">
+                <a class="button green" id="save_ticket">Сохранить</a>
+                <a class="button green" id="save_ticket_and_back">Сохранить и вернуться</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+{% endspaceless %}
